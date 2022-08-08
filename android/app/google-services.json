@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "466609418673",
+    "project_id": "qrena-185d9",
+    "storage_bucket": "qrena-185d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466609418673:android:33f0ad91133f51ab8e8d90",
+        "android_client_info": {
+          "package_name": "com.qrena"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "466609418673-7e5v4m69t9rpuupt10p0psj425p3ftj7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqkxnB3M8bFiHj_jzZ2f9V0rAayPX7Na8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "466609418673-7e5v4m69t9rpuupt10p0psj425p3ftj7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "466609418673-2e8oar59sr03832ch7pkgk26gukg5165.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.Qrena"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

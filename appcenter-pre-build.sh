@@ -1,0 +1,1 @@
+echo “BASE_URL=${BASE_URL}” >> .env
