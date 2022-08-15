@@ -15,6 +15,7 @@ const App: () => JSX.Element = () => {
   const {
     auth: { isAuthenticated, withSplash },
   } = hooks.useTypedSelector((state) => state);
+  const [tabBarDisplay, SetTabBarDisplay] = React.useState<'none' | undefined>('none');
   const tabs = [
     { name: 'Home', component: Home, iconName: 'home' },
     { name: 'Chats', component: Chats, iconName: 'wechat' },
@@ -23,18 +24,22 @@ const App: () => JSX.Element = () => {
     { name: 'Profile', component: Profile, iconName: 'notification-clear-all' },
   ];
 
+  const toggleTabBar = (display: 'none' | undefined) => {
+    SetTabBarDisplay(display);
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Splash'>
         {isAuthenticated ? (
           <Stack.Screen name='Main' options={{ headerShown: false }}>
             {() => (
-              <Tab.Navigator screenOptions={{ headerTitleAlign: 'center' }}>
+              <Tab.Navigator screenOptions={{ headerTitleAlign: 'center', tabBarStyle: { display: tabBarDisplay } }}>
                 {tabs.map((tab, index) => (
                   <Tab.Screen
                     key={index}
                     name={tab.name}
-                    component={tab.component}
+                    children={() => <tab.component toggleTabBar={toggleTabBar} />}
                     options={{
                       tabBarLabelStyle: styles.tabBarLabelStyle,
                       tabBarLabel: tab.name,
