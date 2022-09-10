@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
+import { View, Text, StyleSheet } from 'react-native';
 
 interface IconProps {
   toggleTabBar: (display: 'none' | undefined) => void;
@@ -8,14 +7,6 @@ interface IconProps {
 
 const Home: React.FC<IconProps> = (props) => {
   const { toggleTabBar } = props;
-
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
-
-    return unsubscribe;
-  }, []);
 
   useEffect(() => {
     toggleTabBar(undefined);

@@ -2,9 +2,9 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { addAction, removeAction } from '../redux/loader';
+import { addAction, removeAction } from '../common/loader';
 import setAuthTokenService from './setAuthTokenService';
-import { ValidationErrors } from '../redux/types';
+import { ApiError } from '../redux/types';
 import { RequestParams, User } from '../auth/types';
 
 const requestConfig = {
@@ -25,11 +25,11 @@ export const create = createAsyncThunk(
 
       return res.data;
     } catch (_error) {
-      const error = _error as ValidationErrors;
-      if (!error.response) {
-        return rejectWithValue(error);
+      const error = _error as ApiError;
+      if (error.response?.data) {
+        return rejectWithValue(error.response.data);
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     } finally {
       dispatch(removeAction('create'));
     }
@@ -52,11 +52,11 @@ export const login = createAsyncThunk(
 
       return res.data;
     } catch (_error) {
-      const error = _error as ValidationErrors;
-      if (!error.response) {
-        return rejectWithValue(error);
+      const error = _error as ApiError;
+      if (error.response?.data) {
+        return rejectWithValue(error.response.data);
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     } finally {
       dispatch(removeAction('login'));
     }
@@ -75,11 +75,11 @@ export const readMe = createAsyncThunk(
 
       return res.data;
     } catch (_error) {
-      const error = _error as ValidationErrors;
-      if (!error.response) {
-        return rejectWithValue(error);
+      const error = _error as ApiError;
+      if (error.response?.data) {
+        return rejectWithValue(error.response.data);
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     } finally {
       dispatch(removeAction('login'));
     }

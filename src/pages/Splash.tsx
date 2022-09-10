@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { readMe } from '../modules/auth/authActions';
 import { useTypedDispatch } from '../modules/redux/hooks';
@@ -15,7 +15,7 @@ const Splash: () => JSX.Element = () => {
 
   return (
     <View style={styles.Container}>
-      <Image source={require('../modules/common/assets/images/apple-touch-icon.png')} />
+      <Text style={styles.text}> Qrena </Text>
     </View>
   );
 };
@@ -26,6 +26,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgb(4,75,67)',
+  },
+  text: {
+    fontSize: 70,
+    color: '#ffffff',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
   },
 });
 
