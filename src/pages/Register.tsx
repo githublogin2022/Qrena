@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
 
 import { create } from '../modules/auth/authActions';
@@ -8,6 +8,7 @@ import i18n from '../modules/I18n/i18n';
 
 const Register: () => JSX.Element = () => {
   const dispatch = hooks.useTypedDispatch();
+  const [notificationToken, setNotificationToken] = useState<string | undefined>('');
   const {
     loader: { actions },
   } = hooks.useTypedSelector((state) => state);
@@ -15,7 +16,9 @@ const Register: () => JSX.Element = () => {
   useEffect(() => {
     (async () => {
       try {
-        // const token = await firebase.requestUserPermission();
+        const token = await firebase.requestUserPermission();
+
+        setNotificationToken(token);
       } catch (_error) {
         const error = _error as { name: string; message: string };
         console.log(error);
@@ -29,14 +32,14 @@ const Register: () => JSX.Element = () => {
         userType: 'guest',
         user: {
           firstName: 'Mona',
-          lastName: 'Zaki',
+          lastName: 'Luis',
           gender: 'Male',
           phoneNumber: '01004564332',
-          displayName: 'Mona Zaki',
+          displayName: 'Mona Luis',
           email: 'user120@qrena.com',
           password: 'qrenaapp',
-          // token,
-          // platform: Platform.OS === 'ios' ? 'Ios' : 'Android',
+          token: notificationToken,
+          platform: Platform.OS === 'ios' ? 'Ios' : 'Android',
         },
       })
     )
