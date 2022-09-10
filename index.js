@@ -1,10 +1,10 @@
 import React from 'react';
-import { AppRegistry } from 'react-native';
 import axios from 'axios';
-import notifee, { EventType } from '@notifee/react-native';
+import { AppRegistry } from 'react-native';
 import { Provider as StoreProvider } from 'react-redux';
-import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
 import messaging from '@react-native-firebase/messaging';
+import notifee, { EventType } from '@notifee/react-native';
+import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
 
 import App from './App';
 import store from './src/modules/redux/store';
