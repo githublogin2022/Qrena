@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialState = {
   actions: [],
 } as {
-  actions: String[];
+  actions: string[];
 };
 
 const {

@@ -8,5 +8,16 @@
   "editor.rulers": [120],
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
-  "cSpell.words": ["gradlew", "jsbundle", "Podfile", "qrena", "qrenaapp", "reduxjs", "wechat", "xcodebuild"]
+  "cSpell.words": [
+    "Formik",
+    "gradlew",
+    "jsbundle",
+    "notifee",
+    "Podfile",
+    "qrena",
+    "qrenaapp",
+    "reduxjs",
+    "wechat",
+    "xcodebuild"
+  ]
 }

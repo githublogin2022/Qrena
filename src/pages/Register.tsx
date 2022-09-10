@@ -1,17 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet, View, ActivityIndicator } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, StyleSheet, ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
 
 import { create } from '../modules/auth/authActions';
 import { hooks } from '../modules/redux';
+import { firebase } from '../modules/common/services';
+import i18n from '../modules/I18n/i18n';
+
 const Register: () => JSX.Element = () => {
   const dispatch = hooks.useTypedDispatch();
   const {
-    auth: { me },
     loader: { actions },
   } = hooks.useTypedSelector((state) => state);
-  const [error, setError] = useState('');
 
   useEffect(() => {
+    (async () => {
+      try {
+        // const token = await firebase.requestUserPermission();
+      } catch (_error) {
+        const error = _error as { name: string; message: string };
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  const handleRegister = () => {
     dispatch(
       create({
         userType: 'guest',
@@ -23,26 +35,25 @@ const Register: () => JSX.Element = () => {
           displayName: 'Mona Zaki',
           email: 'user120@qrena.com',
           password: 'qrenaapp',
+          // token,
+          // platform: Platform.OS === 'ios' ? 'Ios' : 'Android',
         },
       })
     )
       .unwrap()
-      .catch((_error) => {
-        setError(JSON.stringify(_error));
+      .catch((error: string) => {
+        console.log(error);
       });
-  }, [dispatch]);
+  };
 
   return (
-    <View style={styles.Container}>
-      <Text> {me?.email}</Text>
+    <TouchableOpacity onPress={() => handleRegister()} style={styles.Container}>
       {actions.includes('create') ? (
         <ActivityIndicator size={'large'} color={'green'} />
-      ) : error ? (
-        <Text> {error}</Text>
       ) : (
-        <Text> Hello World</Text>
+        <Text> {i18n.translate('register_register_button')}</Text>
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 

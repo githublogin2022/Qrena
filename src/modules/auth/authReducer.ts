@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { create, login, readMe } from './authActions';
@@ -14,35 +14,31 @@ const initialState = {
   withSplash: boolean;
 };
 
-const { reducer } = createSlice({
+const slice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(login.fulfilled, (state, { payload }) => {
-      state.me = payload.user;
-      state.isAuthenticated = true;
-      AsyncStorage.setItem('userToken', payload.token);
-    });
-
-    builder.addCase(create.fulfilled, (state, { payload }) => {
-      state.me = payload.user;
-      state.isAuthenticated = true;
-      AsyncStorage.setItem('userToken', payload.token);
-    });
-
     builder.addCase(readMe.fulfilled, (state, { payload }) => {
       state.isAuthenticated = true;
       state.withSplash = false;
       state.me = payload;
     });
-
     builder.addCase(readMe.rejected, (state) => {
       AsyncStorage.removeItem('userToken');
       state.isAuthenticated = false;
       state.withSplash = false;
     });
+    builder
+      .addMatcher(isAnyOf(login.fulfilled, create.fulfilled), (state, { payload }) => {
+        state.me = payload.user;
+        state.isAuthenticated = true;
+        AsyncStorage.setItem('userToken', payload.token);
+      })
+      .addMatcher(isAnyOf(login.rejected, create.rejected), (state) => {
+        state.isAuthenticated = false;
+      });
   },
 });
 
-export default reducer;
+export default slice.reducer;
