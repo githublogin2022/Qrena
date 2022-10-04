@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-interface IconProps {
+interface HomeProps {
   toggleTabBar: (display: 'none' | undefined) => void;
 }
 
-const Home: React.FC<IconProps> = (props) => {
+const Home: React.FC<HomeProps> = (props) => {
   const { toggleTabBar } = props;
 
   useEffect(() => {

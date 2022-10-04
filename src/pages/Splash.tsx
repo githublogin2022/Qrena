@@ -8,9 +8,7 @@ const Splash: () => JSX.Element = () => {
   const dispatch = useTypedDispatch();
 
   useEffect(() => {
-    const timer = setTimeout(() => dispatch(readMe({ userType: 'user' })), 5000);
-
-    return () => clearTimeout(timer);
+    dispatch(readMe({ userType: 'user' }));
   }, [dispatch]);
 
   return (
