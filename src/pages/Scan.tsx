@@ -4,9 +4,9 @@ import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { useScanBarcodes, BarcodeFormat } from 'vision-camera-code-scanner';
 import { useIsFocused } from '@react-navigation/native';
 
-import { permission } from '../modules/common/services';
+import { permission } from '../modules/app/services';
 
-const Scan: () => JSX.Element = () => {
+const Scan = () => {
   const devices = useCameraDevices();
   const device = devices.back;
   const [hasPermission, setHasPermission] = useState(false);

@@ -1,24 +1,10 @@
 {
   "editor.formatOnSave": true,
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "editor.bracketPairColorization.enabled": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.rulers": [120],
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
-  "cSpell.words": [
-    "Barcodes",
-    "Formik",
-    "gradlew",
-    "jsbundle",
-    "notifee",
-    "Podfile",
-    "qrena",
-    "qrenaapp",
-    "reduxjs",
-    "wechat",
-    "xcodebuild"
-  ]
+  "cSpell.words": ["Appbar", "Barcodes", "Formik", "notifee", "otps", "qrena", "qrenaapp", "reduxjs", "typescale"]
 }

@@ -4,12 +4,12 @@ import { AppRegistry } from 'react-native';
 import { Provider as StoreProvider } from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
 import notifee, { EventType } from '@notifee/react-native';
-import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
 
 import App from './App';
-import store from './src/modules/redux/store';
+import './src/modules/app/i18n';
+import store from './src/modules/app/store';
 import { name as appName } from './app.json';
-import { getUrl } from './src/modules/common/util';
+import { getUrl } from './src/modules/app/utils';
 
 const onMessageReceived = async (remoteMessage) => {
   const { title, body, ios: iosStringified, android: androidStringified, ...rest } = remoteMessage.data;
@@ -22,10 +22,7 @@ const onMessageReceived = async (remoteMessage) => {
     await notifee.displayNotification({
       body,
       title,
-      android: {
-        ...android,
-        channelId: await notifee.createChannel(android.channel),
-      },
+      android: { ...android, channelId: await notifee.createChannel(android.channel) },
       ios: { ...ios, categoryId: ios.categories[0].id },
       ...rest,
     });
@@ -47,12 +44,12 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
 
 axios.defaults.baseURL = getUrl();
 
-const Root = () => (
-  <StoreProvider store={store}>
-    <PaperProvider theme={DefaultTheme}>
+const Root = () => {
+  return (
+    <StoreProvider store={store}>
       <App />
-    </PaperProvider>
-  </StoreProvider>
-);
+    </StoreProvider>
+  );
+};
 
 AppRegistry.registerComponent(appName, () => Root);

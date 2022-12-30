@@ -1,5 +1,6 @@
+import Button from './Button';
 import Checkbox from './Checkbox';
-import Icon from './Icon';
-import TextInput from './TextInput';
+import PhoneField from './PhoneField';
+import TextField from './TextField';
 
-export { Checkbox, Icon, TextInput };
+export { Button, Checkbox, PhoneField, TextField };
