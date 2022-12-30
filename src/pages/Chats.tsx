@@ -1,11 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Chats: () => JSX.Element = () => {
+import { useTypedNavigation, useTypedSelector } from '../modules/app/hooks';
+
+const Chats = () => {
+  const navigation = useTypedNavigation();
+
+  const {
+    theme: { theme },
+  } = useTypedSelector((state) => state);
+
   return (
-    <View style={styles.Container}>
-      <Text> welcome from Chats </Text>
-    </View>
+    <TouchableOpacity
+      style={[styles.Container, { backgroundColor: theme.colors.background }]}
+      onPress={() => navigation.navigate('Chat')}>
+      <Text style={{ color: theme.colors.contrastText }}> Press to go to Chat </Text>
+    </TouchableOpacity>
   );
 };
 

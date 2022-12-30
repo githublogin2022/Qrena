@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Notifications: () => JSX.Element = () => {
+const Notifications = () => {
   return (
     <View style={styles.Container}>
       <Text> welcome from Notifications </Text>

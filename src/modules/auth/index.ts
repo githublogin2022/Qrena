@@ -1,5 +1,4 @@
-import * as authActions from './authActions';
-import setAuthTokenService from './setAuthTokenService';
-import authReducer from './authReducer';
+import * as authActions from './actions';
+import authReducer from './reducer';
 
-export { authActions, setAuthTokenService, authReducer };
+export { authActions, authReducer };

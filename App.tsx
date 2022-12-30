@@ -1,73 +1,67 @@
-import React from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import React, { useEffect } from 'react';
+import { Appearance } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Chats, Home, Landing, Login, Notifications, Profile, Register, Scan, Splash } from './src/pages';
-import { Icon } from './src/modules/common/components';
-import { hooks } from './src/modules/redux';
-import { types } from './src/modules/common/navigation';
+import { Chat, Login, Notifications, OnBoarding, Register, Splash, VerifyOtp } from './src/pages';
+import { useTypedDispatch, useTypedSelector } from './src/modules/app/hooks';
+import { RootStackParams } from './src/modules/app/types';
+import { read } from './src/modules/onboarding/visibility';
+import { update } from './src/modules/app/theme';
+import { TabNavigator } from './src/modules/app/components';
 
 const App: () => JSX.Element = () => {
-  const Stack = createNativeStackNavigator<types.RootStackParams>();
-  const Tab = createBottomTabNavigator();
+  const dispatch = useTypedDispatch();
   const {
+    theme: { theme },
     auth: { isAuthenticated, withSplash },
-  } = hooks.useTypedSelector((state) => state);
-  const [tabBarDisplay, SetTabBarDisplay] = React.useState<'none' | undefined>('none');
-  const tabs = [
-    { name: 'Home', component: Home, iconName: 'home' },
-    { name: 'Chats', component: Chats, iconName: 'wechat' },
-    { name: 'Scan', component: Scan, iconName: 'camera' },
-    { name: 'Notifications', component: Notifications, iconName: 'bell' },
-    { name: 'Profile', component: Profile, iconName: 'notification-clear-all' },
-  ];
+    onBoardingVisibility: { isVisible },
+  } = useTypedSelector((state) => state);
+  const Stack = createNativeStackNavigator<RootStackParams>();
 
-  const toggleTabBar = (display: 'none' | undefined) => {
-    SetTabBarDisplay(display);
-  };
+  useEffect(() => {
+    dispatch(read());
+  }, [dispatch]);
+
+  Appearance.addChangeListener(async ({ colorScheme }) => {
+    const userColorScheme = await AsyncStorage.getItem('colorScheme');
+
+    if (!userColorScheme) {
+      dispatch(update({ type: 'phone', colorScheme }));
+    }
+  });
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Splash'>
-        {isAuthenticated ? (
-          <Stack.Screen name='Main' options={{ headerShown: false }}>
-            {() => (
-              <Tab.Navigator screenOptions={{ headerTitleAlign: 'center', tabBarStyle: { display: tabBarDisplay } }}>
-                {tabs.map((tab, index) => (
-                  <Tab.Screen
-                    key={index}
-                    name={tab.name}
-                    children={() => <tab.component toggleTabBar={toggleTabBar} />}
-                    options={{
-                      tabBarLabelStyle: styles.tabBarLabelStyle,
-                      tabBarLabel: tab.name,
-                      tabBarIcon: ({ focused }) => <Icon name={tab.iconName} focused={focused} />,
-                    }}
-                  />
-                ))}
-              </Tab.Navigator>
-            )}
-          </Stack.Screen>
-        ) : (
-          <>
-            <Stack.Screen name='Landing' component={Landing} />
-            <Stack.Screen name='Login' component={Login} />
-            <Stack.Screen name='Register' component={Register} />
-            {withSplash && <Stack.Screen name='Splash' component={Splash} options={{ headerShown: false }} />}
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <PaperProvider theme={theme}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Splash'>
+          {isAuthenticated ? (
+            <>
+              <Stack.Screen name='Main' component={TabNavigator} options={{ headerShown: false }} />
+              <Stack.Screen name='Chat' component={Chat} options={{ headerBackTitleVisible: false }} />
+              <Stack.Screen
+                name='Notifications'
+                component={Notifications}
+                options={{ headerBackTitleVisible: false }}
+              />
+            </>
+          ) : (
+            <>
+              {withSplash && <Stack.Screen name='Splash' component={Splash} options={{ headerShown: false }} />}
+              {isVisible === null && (
+                <Stack.Screen name='OnBoarding' component={OnBoarding} options={{ headerShown: false }} />
+              )}
+              <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+              <Stack.Screen name='VerifyOtp' component={VerifyOtp} options={{ headerShown: false }} />
+              <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  tabBarLabelStyle: {
-    fontSize: 13,
-    marginBottom: Platform.OS === 'android' ? 3 : 0,
-  },
-});
 
 export default App;

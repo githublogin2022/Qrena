@@ -1,7 +1,6 @@
-import { Platform } from '../redux/types';
+import { UserType } from '../app/types';
 
-export type UserType = 'guest' | 'user';
-export interface User {
+export type User = {
   _id?: string;
   firstName?: string;
   lastName?: string;
@@ -11,15 +10,9 @@ export interface User {
   email?: string;
   password?: string;
   token?: string;
-  platform?: Platform;
-}
-export interface RequestParams {
-  /**
-   * The type of user needs to login or register.
-   */
+  platform?: 'Ios' | 'Android';
+};
+export type RequestParams = {
   userType: UserType;
-  /**
-   * The user object
-   */
   user?: User;
-}
+};

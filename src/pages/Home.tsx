@@ -1,20 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-interface HomeProps {
-  toggleTabBar: (display: 'none' | undefined) => void;
-}
+import { useTypedSelector } from '../modules/app/hooks';
 
-const Home: React.FC<HomeProps> = (props) => {
-  const { toggleTabBar } = props;
-
-  useEffect(() => {
-    toggleTabBar(undefined);
-  }, [toggleTabBar]);
-
+const Home = () => {
+  const {
+    theme: { theme },
+  } = useTypedSelector((state) => state);
   return (
-    <View style={styles.Container}>
-      <Text> welcome from Home </Text>
+    <View style={[styles.Container, { backgroundColor: theme.colors.background }]}>
+      <Text style={{ color: theme.colors.contrastText }}> welcome from Home </Text>
     </View>
   );
 };
