@@ -1,17 +1,16 @@
 import React, { ReactElement } from 'react';
-import { StyleSheet, Image, Platform } from 'react-native';
+import { StyleSheet, Image, Platform, ImageSourcePropType } from 'react-native';
 import { createBottomTabNavigator, BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { Chats, Home, Settings, Scan } from '../../../pages';
-import { HomeFilled, HomeOutlined } from '../assets';
+import { Chats, Home, Settings } from '../../../pages';
 import Header from './Header';
 
 type Tab = {
   name: string;
   component: () => ReactElement;
-  iconFilled: any;
-  iconOutlined: any;
+  iconFilled: ImageSourcePropType;
+  iconOutlined: ImageSourcePropType;
   options?: BottomTabNavigationOptions;
 };
 
@@ -29,13 +28,6 @@ const TabNavigator = () => {
       component: Chats,
       iconFilled: require('../assets/png/chat-filled.png'),
       iconOutlined: require('../assets/png/chat-outlined.png'),
-    },
-    {
-      name: 'Scan',
-      component: Scan,
-      iconFilled: <HomeFilled height={50} width={50} />,
-      iconOutlined: <HomeOutlined height={50} width={50} />,
-      options: { headerShown: false },
     },
     {
       name: 'Settings',
@@ -68,16 +60,9 @@ const TabNavigator = () => {
           component={tab.component}
           options={{
             tabBarShowLabel: false,
-            tabBarIcon: ({ focused }) =>
-              tab.name === 'Scan' ? (
-                focused ? (
-                  tab.iconFilled
-                ) : (
-                  tab.iconOutlined
-                )
-              ) : (
-                <Image source={focused ? tab.iconFilled : tab.iconOutlined} style={styles.image} />
-              ),
+            tabBarIcon: ({ focused }) => (
+              <Image source={focused ? tab.iconFilled : tab.iconOutlined} style={styles.image} />
+            ),
             ...tab.options,
           }}
         />

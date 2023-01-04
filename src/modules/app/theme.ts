@@ -16,6 +16,7 @@ const initialState = {
       secondary: 'rgba(41, 39, 39, 1)',
       tertiary: 'rgba(65, 178, 156, 1)',
       background: 'rgba(255, 255, 255, 1)',
+      header: 'rgba(255, 255, 255, 1)',
       contrastText: 'rgba(0, 0, 0, 1)',
       error: 'rgb(255, 0, 0)',
       grey: {
@@ -74,6 +75,7 @@ const { reducer } = createSlice({
             ...initialState.theme.colors,
             secondary: 'rgba(4, 13, 28, 1)',
             background: 'rgba(15, 24, 40, 0.96)',
+            header: 'rgba(4, 13, 28, 1)',
             contrastText: 'rgba(256, 256, 256, 1)',
           },
         };

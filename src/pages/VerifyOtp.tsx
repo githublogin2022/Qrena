@@ -108,7 +108,14 @@ const VerifyOtp = () => {
           {({ submitForm }) => (
             <>
               <View style={styles.textFieldContainer}>
-                <Field component={TextField} name='otp' autoFocus style={styles.textField} theme={{ roundness: 12 }} />
+                <Field
+                  component={TextField}
+                  name='otp'
+                  autoFocus
+                  style={styles.textField}
+                  theme={{ roundness: 12 }}
+                  keyboardType='number-pad'
+                />
               </View>
 
               <Button

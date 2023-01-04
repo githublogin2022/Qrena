@@ -15,13 +15,24 @@ const Header = (props: BottomTabHeaderProps) => {
   return (
     <Appbar.Header
       statusBarHeight={35}
-      style={{ ...{ backgroundColor: theme.dark ? '#010C20' : theme.colors.grey['300'] } }}
-      mode='center-aligned'>
+      style={{
+        backgroundColor: theme.colors.header,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+      }}
+      mode='small'>
       <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} translucent backgroundColor='transparent' />
       <Appbar.Content
         title={t(`header_${route.name.toLowerCase()}_title_text`)}
         titleStyle={{ color: theme.colors.contrastText }}
       />
+      {route.name !== 'Settings' && (
+        <Appbar.Action
+          icon={() => (
+            <Image resizeMode='stretch' source={require('../assets/png/scan.png')} style={styles.notifications} />
+          )}
+          onPress={() => navigation.navigate('Scan')}
+        />
+      )}
       {route.name !== 'Settings' && (
         <Appbar.Action
           icon={() => (

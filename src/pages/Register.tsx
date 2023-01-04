@@ -11,10 +11,7 @@ import { TextField, Button } from '../modules/common/components';
 import { useTypedDispatch, useTypedSelector } from '../modules/app/hooks';
 import { RootStackParams } from '../modules/app/types';
 
-type Data = {
-  firstName: string;
-  lastName: string;
-};
+type Data = { firstName: string; lastName: string };
 
 const Register = () => {
   const dispatch = useTypedDispatch();
