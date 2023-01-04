@@ -22,7 +22,7 @@ const Chat = () => {
         <Text style={styles.child}>child</Text>
       </ScrollView>
       <View style={styles.footer}>
-        <Text>footer red</Text>
+        <Text>footer</Text>
       </View>
     </View>
   );
