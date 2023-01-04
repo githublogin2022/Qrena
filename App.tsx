@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Chat, Login, Notifications, OnBoarding, Register, Splash, VerifyOtp } from './src/pages';
+import { Chat, Login, Notifications, OnBoarding, Register, Scan, Splash, VerifyOtp } from './src/pages';
 import { useTypedDispatch, useTypedSelector } from './src/modules/app/hooks';
 import { RootStackParams } from './src/modules/app/types';
 import { read } from './src/modules/onboarding/visibility';
@@ -46,6 +46,7 @@ const App: () => JSX.Element = () => {
                 component={Notifications}
                 options={{ headerBackTitleVisible: false }}
               />
+              <Stack.Screen name='Scan' component={Scan} />
             </>
           ) : (
             <>

@@ -12,9 +12,7 @@ import { useTypedDispatch, useTypedSelector } from '../modules/app/hooks';
 import { PhoneField, Button } from '../modules/common/components';
 import { useTypedNavigation } from '../modules/app/hooks';
 
-type Data = {
-  phoneNumber: string;
-};
+type Data = { phoneNumber: string };
 
 const Login = () => {
   const dispatch = useTypedDispatch();
