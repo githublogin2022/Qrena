@@ -47,11 +47,12 @@ const TabNavigator = () => {
             colors={['#1897D3', '#79D44E']}
             useAngle={true}
             angle={170}
-            locations={[0.11, 1]}
+            locations={[0, 1]}
           />
         ),
+        tabBarHideOnKeyboard: true,
         tabBarStyle: styles.tabBar,
-        tabBarIconStyle: { marginTop: Platform.OS === 'ios' ? 10 : 0 },
+        tabBarIconStyle: { marginTop: Platform.OS === 'ios' ? 20 : 0 },
       }}>
       {tabs.map((tab, index) => (
         <Tab.Screen
@@ -72,8 +73,8 @@ const TabNavigator = () => {
 };
 
 const styles = StyleSheet.create({
-  linearGradient: { height: Platform.OS === 'ios' ? 80 : 70 },
-  tabBar: { height: Platform.OS === 'ios' ? 80 : 65 },
+  linearGradient: { height: Platform.OS === 'ios' ? 65 : 70 },
+  tabBar: { height: Platform.OS === 'ios' ? 65 : 65 },
   image: { height: 40, width: 40 },
 });
 

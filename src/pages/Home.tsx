@@ -7,6 +7,7 @@ const Home = () => {
   const {
     theme: { theme },
   } = useTypedSelector((state) => state);
+
   return (
     <View style={[styles.Container, { backgroundColor: theme.colors.background }]}>
       <Text style={{ color: theme.colors.contrastText }}> welcome from Home </Text>

@@ -9,7 +9,8 @@ import { userLogin, phoneOtpLogin } from '../modules/auth/actions';
 import { useTypedDispatch, useTypedSelector } from '../modules/app/hooks';
 import { TextField, Button } from '../modules/common/components';
 import { useTypedNavigation } from '../modules/app/hooks';
-import { firebase } from '../modules/app/services';
+import { firebase } from '../modules/notifications/services';
+import { getCount } from '../modules/notifications/actions';
 
 type Data = { otp: string };
 
@@ -70,6 +71,7 @@ const VerifyOtp = () => {
             },
           })
         ).unwrap();
+        await dispatch(getCount({ userType: 'user', queries: 'status=unread' })).unwrap();
       }
     } catch (error: any) {
       errorFlag = true;

@@ -1,26 +1,19 @@
 import React, { createRef } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 
 const Chat = () => {
-  const scrollRef = createRef<ScrollView>();
-
-  const scrollViewSizeChanged = (height: number) => {
-    scrollRef.current?.scrollTo({ y: height, animated: true });
-  };
+  const flatListRef = createRef<FlatList>();
+  const data = [{ id: '1', text: 'hey' }];
 
   return (
     <View style={styles.Container}>
-      <ScrollView
-        ref={scrollRef}
-        onContentSizeChange={(width, height) => {
-          scrollViewSizeChanged(height);
-        }}>
-        <Text style={styles.child}>child</Text>
-        <Text style={styles.child}>child</Text>
-        <Text style={styles.child}>child</Text>
-        <Text style={styles.child}>child</Text>
-        <Text style={styles.child}>child</Text>
-      </ScrollView>
+      <FlatList
+        ref={flatListRef}
+        data={data}
+        renderItem={({ item }) => <Text style={styles.child}>{item.text}</Text>}
+        keyExtractor={(item) => item.id}
+        onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+      />
       <View style={styles.footer}>
         <Text>footer</Text>
       </View>

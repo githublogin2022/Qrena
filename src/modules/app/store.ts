@@ -5,6 +5,8 @@ import { phoneOtpReducer } from '../phone-otp';
 import loader from './loader';
 import theme from './theme';
 import visibility from '../onboarding/visibility';
+import searchBarReducer from './searchBarSlice';
+import notificationsReducer from '../notifications/reducer';
 
 const store = configureStore({
   reducer: {
@@ -13,6 +15,8 @@ const store = configureStore({
     theme,
     phoneOtp: phoneOtpReducer,
     onBoardingVisibility: visibility,
+    searchBar: searchBarReducer,
+    notification: notificationsReducer,
   },
 });
 

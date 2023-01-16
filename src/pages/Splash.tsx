@@ -6,6 +6,7 @@ import { readMe } from '../modules/auth/actions';
 import { read } from '../modules/app/theme';
 import { useTypedDispatch } from '../modules/app/hooks';
 import LogoLg from '../modules/app/assets/svg/LogoLg';
+import { getCount } from '../modules/notifications/actions';
 
 const Splash = () => {
   const dispatch = useTypedDispatch();
@@ -13,6 +14,7 @@ const Splash = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(read());
+      dispatch(getCount({ userType: 'user', queries: 'status=unread' }));
       dispatch(readMe({ userType: 'user' }));
     }, 2000);
     return () => clearTimeout(timer);
@@ -36,17 +38,8 @@ const Splash = () => {
 };
 
 const styles = StyleSheet.create({
-  Container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 70,
-    color: 'white',
-    fontWeight: 'bold',
-    letterSpacing: 3,
-  },
+  Container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  text: { fontSize: 70, color: 'white', fontWeight: 'bold', letterSpacing: 3 },
 });
 
 export default Splash;
