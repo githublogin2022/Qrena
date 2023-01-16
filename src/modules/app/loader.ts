@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
-  actions: [],
-} as {
-  actions: string[];
-};
+const initialState = { actions: [] } as { actions: string[] };
 
 const {
   reducer,

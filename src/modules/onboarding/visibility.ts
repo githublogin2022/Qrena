@@ -1,11 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const initialState = {
-  isVisible: null,
-} as {
-  isVisible: string | null;
-};
+const initialState = { isVisible: null } as { isVisible: string | null };
 
 export const read = createAsyncThunk('onBoardingVisibility/read', async () => {
   return await AsyncStorage.getItem('isOnBoardingVisible');
@@ -31,5 +27,4 @@ const {
 });
 
 export { update };
-
 export default reducer;

@@ -1,3 +1,6 @@
+import { NotificationAndroid, NotificationIOS, AndroidChannel, IOSNotificationCategory } from '@notifee/react-native';
+import { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
+
 import store from './store';
 
 export type RootStackParams = {
@@ -27,3 +30,15 @@ export type ApiError = {
   };
 };
 export type UserType = 'guest' | 'phoneOtp' | 'user';
+export type RemoteMessage = {
+  data: {
+    androidStringified: string;
+    iosStringified: string;
+    title: string;
+    body: string;
+    sender?: string;
+    url?: string;
+  };
+} & FirebaseMessagingTypes.RemoteMessage;
+export type Android = { channel: AndroidChannel } & NotificationAndroid;
+export type IOS = { categories: IOSNotificationCategory[] } & NotificationIOS;
