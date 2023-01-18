@@ -20,7 +20,7 @@ const App: () => JSX.Element = () => {
   const {
     theme: { theme },
     auth: { isAuthenticated, withSplash },
-    onBoardingVisibility: { isVisible },
+    onBoarding: { isVisible },
   } = useTypedSelector((state) => state);
   const Stack = createNativeStackNavigator<RootStackParams>();
 

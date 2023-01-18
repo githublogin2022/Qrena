@@ -1,4 +1,4 @@
-import { Appearance, ColorSchemeName } from 'react-native';
+import { Appearance, ColorSchemeName, Dimensions } from 'react-native';
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import { MD3LightTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,6 +10,8 @@ const initialState = {
     ...MD3LightTheme,
     dark: false,
     custom: 'property',
+    windowHeight: Dimensions.get('window').height,
+    windowWidth: Dimensions.get('window').width,
     colors: {
       ...MD3LightTheme.colors,
       primary: 'rgba(24, 166, 211, 1)',
@@ -19,6 +21,7 @@ const initialState = {
       header: 'rgba(255, 255, 255, 1)',
       contrastText: 'rgba(0, 0, 0, 1)',
       error: 'rgb(255, 0, 0)',
+      white: 'rgba(256, 256, 256, 1)',
       grey: {
         '50': 'rgba(250, 250, 250, 1)',
         '100': '#f5f5f5',

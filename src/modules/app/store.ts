@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { authReducer } from '../auth';
 import { phoneOtpReducer } from '../phone-otp';
+import { qrCodeReducer } from '../home';
 import loader from './loader';
 import theme from './theme';
 import visibility from '../onboarding/visibility';
@@ -14,7 +15,8 @@ const store = configureStore({
     loader,
     theme,
     phoneOtp: phoneOtpReducer,
-    onBoardingVisibility: visibility,
+    qrCode: qrCodeReducer,
+    onBoarding: visibility,
     searchBar: searchBarReducer,
     notification: notificationsReducer,
   },
