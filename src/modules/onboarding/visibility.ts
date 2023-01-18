@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = { isVisible: null } as { isVisible: string | null };
 
-export const read = createAsyncThunk('onBoardingVisibility/read', async () => {
+export const read = createAsyncThunk('onBoarding/read', async () => {
   return await AsyncStorage.getItem('isOnBoardingVisible');
 });
 
@@ -11,7 +11,7 @@ const {
   reducer,
   actions: { update },
 } = createSlice({
-  name: 'onBoardingVisibility',
+  name: 'onBoarding',
   initialState,
   reducers: {
     update: (state) => {

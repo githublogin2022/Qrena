@@ -132,7 +132,7 @@ const VerifyOtp = () => {
                 }}
                 contentStyle={styles.buttonContainer}
                 style={styles.button}
-                labelStyle={[styles.buttonLabel, { ...theme.typescale.titleMedium }]}
+                labelStyle={[styles.buttonLabel, { ...theme.typescale.titleMedium, color: theme.colors.white }]}
                 onPress={submitForm}>
                 {t('verify_otp_verify_button_text_button')}
               </Button>
@@ -140,8 +140,8 @@ const VerifyOtp = () => {
           )}
         </Formik>
       </View>
-      <Snackbar visible={visible} onDismiss={onDismissSnackBar}>
-        <Text style={styles.snackbarText}> {snackbarMessage} </Text>
+      <Snackbar style={{ backgroundColor: theme.colors.tertiary }} visible={visible} onDismiss={onDismissSnackBar}>
+        <Text style={[styles.snackbarText, { color: theme.colors.white }]}> {snackbarMessage} </Text>
       </Snackbar>
     </View>
   );
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   textField: { backgroundColor: 'rgba(255, 255, 255, 1)' },
   buttonContainer: { height: 52 },
   button: { width: 350, backgroundColor: 'transparent' },
-  buttonLabel: { color: 'white', fontWeight: 'bold' },
+  buttonLabel: { fontWeight: 'bold' },
   snackbarText: { textAlign: 'center' },
 });
 

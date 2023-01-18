@@ -9,7 +9,7 @@ import store from './src/modules/app/store';
 import { name as appName } from './app.json';
 import { getUrl } from './src/modules/app/utils';
 
-axios.defaults.baseURL = getUrl();
+axios.defaults.baseURL = getUrl('server');
 
 const Root = () => {
   return (

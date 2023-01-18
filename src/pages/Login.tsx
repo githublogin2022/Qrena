@@ -114,8 +114,8 @@ const Login = () => {
           )}
         </Formik>
       </View>
-      <Snackbar visible={visible} onDismiss={onDismissSnackBar}>
-        <Text style={styles.snackbarText}> {snackbarMessage} </Text>
+      <Snackbar style={{ backgroundColor: theme.colors.tertiary }} visible={visible} onDismiss={onDismissSnackBar}>
+        <Text style={[styles.snackbarText, { color: theme.colors.white }]}> {snackbarMessage} </Text>
       </Snackbar>
     </View>
   );

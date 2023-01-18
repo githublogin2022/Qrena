@@ -413,7 +413,7 @@ PODS:
     - React-Core
   - RNPermissions (3.6.1):
     - React-Core
-  - RNReanimated (2.14.1):
+  - RNReanimated (2.14.2):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -440,7 +440,7 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.18.2):
+  - RNScreens (3.19.0):
     - React-Core
     - React-RCTImage
   - RNSVG (13.7.0):
@@ -691,8 +691,8 @@ SPEC CHECKSUMS:
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNNotifee: 5155e0a5e0a97d0c839030d8192783cd63053999
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
-  RNReanimated: d466d50898ba2d63b254c7aef30e8ff991389155
-  RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
+  RNReanimated: f27fc24068350c100a1e4e0de458a6ad356a0618
+  RNScreens: ea4cd3a853063cda19a4e3c28d2e52180c80f4eb
   RNSVG: d787d64ca06b9158e763ad2638a8c4edce00782a
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   vision-camera-code-scanner: dda884a7f3ec8243a2a6d6489b91860648371bca
