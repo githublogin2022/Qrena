@@ -16,6 +16,8 @@ export type RootStackParams = {
   Scan: undefined;
   Settings: undefined;
   Notifications: undefined;
+  ChatSettings: undefined;
+  Account: undefined;
 };
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

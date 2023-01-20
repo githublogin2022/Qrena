@@ -2,12 +2,13 @@ import React from 'react';
 import { Image, StyleSheet, StatusBar, View } from 'react-native';
 import { Appbar, Badge, Searchbar } from 'react-native-paper';
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 import { useTypedSelector, useTypedDispatch } from '../../../modules/app/hooks';
 import { updateVisibility, updateSearchText } from '../searchBarSlice';
 
 const Header = (props: BottomTabHeaderProps) => {
+  const { t } = useTranslation();
   const { navigation, route } = props;
   const dispatch = useTypedDispatch();
   const {

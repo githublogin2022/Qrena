@@ -9,9 +9,10 @@ import appEn from './languages/en';
 import appAr from './languages/ar';
 import { OnboardingEn, OnboardingAr } from '../../onboarding/i18n';
 import { AuthEn, AuthAr } from '../../auth/i18n';
+import { SettingsEn, SettingsAr } from '../../settings/i18n';
 
-const en = { translation: { ...appEn, ...OnboardingEn, ...AuthEn } };
-const ar = { translation: { ...appAr, ...OnboardingAr, ...AuthAr } };
+const en = { translation: { ...appEn, ...OnboardingEn, ...AuthEn, ...SettingsEn } };
+const ar = { translation: { ...appAr, ...OnboardingAr, ...AuthAr, ...SettingsAr } };
 
 i18n
   .use({

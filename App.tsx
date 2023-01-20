@@ -7,7 +7,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import notifee, { EventType } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 
-import { Chat, Login, Notifications, OnBoarding, Register, Scan, Splash, VerifyOtp } from './src/pages';
+import {
+  Chat,
+  Login,
+  Notifications,
+  OnBoarding,
+  Register,
+  Scan,
+  Splash,
+  VerifyOtp,
+  ChatSettings,
+  Account,
+} from './src/pages';
 import { useTypedDispatch, useTypedSelector } from './src/modules/app/hooks';
 import { RootStackParams, Android, IOS, RemoteMessage } from './src/modules/app/types';
 import { read } from './src/modules/onboarding/visibility';
@@ -73,23 +84,23 @@ const App: () => JSX.Element = () => {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='Splash'>
+        <Stack.Navigator
+          initialRouteName='Splash'
+          screenOptions={{
+            headerStyle: { backgroundColor: theme.colors.background },
+            headerTitleStyle: { color: theme.colors.contrastText },
+            headerTintColor: theme.colors.contrastText,
+            headerBackTitleVisible: false,
+            statusBarTranslucent: true,
+          }}>
           {isAuthenticated ? (
             <>
               <Stack.Screen name='Main' component={TabNavigator} options={{ headerShown: false }} />
-              <Stack.Screen name='Chat' component={Chat} options={{ headerBackTitleVisible: false }} />
-              <Stack.Screen
-                name='Notifications'
-                component={Notifications}
-                options={{
-                  headerBackTitleVisible: false,
-                  headerStyle: { backgroundColor: theme.colors.background },
-                  headerTitleStyle: { color: theme.colors.contrastText },
-                  statusBarTranslucent: true,
-                  headerTintColor: theme.colors.contrastText,
-                }}
-              />
+              <Stack.Screen name='Chat' component={Chat} />
+              <Stack.Screen name='Notifications' component={Notifications} />
               <Stack.Screen name='Scan' component={Scan} />
+              <Stack.Screen name='ChatSettings' component={ChatSettings} />
+              <Stack.Screen name='Account' component={Account} />
             </>
           ) : (
             <>
