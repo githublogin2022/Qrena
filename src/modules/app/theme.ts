@@ -51,6 +51,7 @@ export const update = createAsyncThunk(
   'theme/update',
   async ({ type, colorScheme }: { type: Type; colorScheme: ColorSchemeName }) => {
     if (!colorScheme) {
+      await AsyncStorage.removeItem('colorScheme');
       colorScheme = Appearance.getColorScheme() === 'light' ? 'light' : 'dark';
     }
 
