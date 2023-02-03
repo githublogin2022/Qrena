@@ -22,6 +22,7 @@ const initialState = {
       contrastText: 'rgba(0, 0, 0, 1)',
       error: 'rgb(255, 0, 0)',
       white: 'rgba(256, 256, 256, 1)',
+      lightPurple: 'rgb(210,213,246)',
       grey: {
         '50': 'rgba(250, 250, 250, 1)',
         '100': '#f5f5f5',
