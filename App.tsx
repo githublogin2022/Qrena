@@ -17,7 +17,14 @@ import {
   Splash,
   VerifyOtp,
   ChatSettings,
+  Profile,
   Account,
+  Theme,
+  AppLanguage,
+  Codes,
+  NotificationsSettings,
+  Privacy,
+  Help,
 } from './src/pages';
 import { useTypedDispatch, useTypedSelector } from './src/modules/app/hooks';
 import { RootStackParams, Android, IOS, RemoteMessage } from './src/modules/app/types';
@@ -100,7 +107,14 @@ const App: () => JSX.Element = () => {
               <Stack.Screen name='Notifications' component={Notifications} />
               <Stack.Screen name='Scan' component={Scan} />
               <Stack.Screen name='ChatSettings' component={ChatSettings} />
+              <Stack.Screen name='Profile' component={Profile} />
               <Stack.Screen name='Account' component={Account} />
+              <Stack.Screen name='Theme' component={Theme} />
+              <Stack.Screen name='AppLanguage' component={AppLanguage} />
+              <Stack.Screen name='Codes' component={Codes} />
+              <Stack.Screen name='NotificationsSettings' component={NotificationsSettings} />
+              <Stack.Screen name='Privacy' component={Privacy} />
+              <Stack.Screen name='Help' component={Help} />
             </>
           ) : (
             <>
