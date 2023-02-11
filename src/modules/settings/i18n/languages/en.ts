@@ -16,6 +16,8 @@ const en = {
   language_default_title_text: 'Default',
   language_english_title_text: 'English',
   language_arabic_title_text: 'Arabic',
+  account_logout_button_title_text: 'LogOut',
+  profile_save_button_title_text: 'Save',
 };
 
 export default en;

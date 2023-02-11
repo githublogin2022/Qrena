@@ -1,7 +1,7 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { create, userLogin, readMe, phoneOtpLogin } from './actions';
+import { create, userLogin, readMe, phoneOtpLogin, updateMe } from './actions';
 import { User } from './types';
 
 const initialState = {
@@ -31,6 +31,9 @@ const slice = createSlice({
       AsyncStorage.removeItem('userToken');
       state.isAuthenticated = false;
       state.withSplash = false;
+    });
+    builder.addCase(updateMe.fulfilled, (state, { payload }) => {
+      state.me = payload;
     });
     builder
       .addMatcher(isAnyOf(userLogin.fulfilled, create.fulfilled), (state, { payload }) => {

@@ -6,13 +6,13 @@ import { useTypedSelector } from '../../../modules/app/hooks';
 
 type RadioButtonProps = {
   onPress: ((event: GestureResponderEvent) => void) | ((event: GestureResponderEvent) => Promise<void>) | undefined;
-  selected: boolean;
+  isSelected: boolean;
   label: string;
   containerStyle?: ViewStyle;
 };
 
 const RadioButton = (props: RadioButtonProps) => {
-  const { selected, label, onPress, containerStyle } = props;
+  const { isSelected, label, onPress, containerStyle } = props;
   const {
     theme: { theme },
   } = useTypedSelector((state) => state);
@@ -25,7 +25,7 @@ const RadioButton = (props: RadioButtonProps) => {
           { backgroundColor: theme.colors.grey['100'], borderColor: theme.colors.grey['300'] },
         ]}
         onPress={onPress}>
-        {selected ? <View style={[styles.RadioIconContainer, { backgroundColor: theme.colors.tertiary }]} /> : null}
+        {isSelected ? <View style={[styles.RadioIconContainer, { backgroundColor: theme.colors.tertiary }]} /> : null}
       </TouchableOpacity>
       <Text variant='titleMedium' style={{ color: theme.colors.contrastText }}>
         {label}

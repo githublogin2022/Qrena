@@ -115,3 +115,28 @@ export const readMe = createAsyncThunk(
     }
   }
 );
+
+export const updateMe = createAsyncThunk(
+  'user/updateMe',
+  async ({ userType, user }: RequestParams, { rejectWithValue, dispatch }) => {
+    try {
+      setAuthTokenService(await AsyncStorage.getItem(`${userType}Token`));
+
+      dispatch(addAction('userUpdateMe'));
+
+      const body = JSON.stringify(user);
+
+      const res = await axios.patch<{ user: User }>(`/users/me?userType=${userType}`, body, requestConfig);
+
+      return res.data;
+    } catch (_error) {
+      const error = _error as ApiError;
+      if (error.response?.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    } finally {
+      dispatch(removeAction('userUpdateMe'));
+    }
+  }
+);
