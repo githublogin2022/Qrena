@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 
 import { addAction, removeAction } from '../app/loader';
 import { setAuthTokenService } from '../app/services';
@@ -92,6 +94,28 @@ export const phoneOtpLogin = createAsyncThunk(
     }
   }
 );
+
+export const logout = createAsyncThunk('logOut', async ({ userType }: RequestParams, { rejectWithValue, dispatch }) => {
+  try {
+    setAuthTokenService(await AsyncStorage.getItem(`${userType}Token`));
+
+    dispatch(addAction('logout'));
+
+    await messaging().deleteToken();
+
+    await axios.post(`/users/logout?userType=${userType}`, {
+      platform: Platform.OS.charAt(0).toUpperCase() + Platform.OS.slice(1),
+    });
+  } catch (_error) {
+    const error = _error as ApiError;
+    if (error.response?.data) {
+      return rejectWithValue(error.response.data);
+    }
+    return rejectWithValue(error.message);
+  } finally {
+    dispatch(removeAction('logout'));
+  }
+});
 
 export const readMe = createAsyncThunk(
   'user/me',
