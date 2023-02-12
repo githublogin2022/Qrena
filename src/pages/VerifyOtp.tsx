@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Platform, StatusBar } from 'react-native';
+import { StyleSheet, View, Platform, StatusBar, TouchableOpacity } from 'react-native';
 import { Snackbar, Text } from 'react-native-paper';
 import { Formik, Field, FormikHelpers } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
 import { userLogin, phoneOtpLogin } from '../modules/auth/actions';
+import { resend } from '../modules/phone-otp/actions';
 import { useTypedDispatch, useTypedSelector } from '../modules/app/hooks';
 import { TextField, Button } from '../modules/common/components';
 import { useTypedNavigation } from '../modules/app/hooks';
@@ -26,7 +27,8 @@ const VerifyOtp = () => {
   const [visible, setVisible] = useState(false);
   const [snackbarMessage, SetSnackbarMessage] = useState('');
   const [notificationToken, setNotificationToken] = useState<string | undefined>('');
-  const loading = actions.includes('userLogin') || actions.includes('phoneOtpLogin');
+  const loading =
+    actions.includes('userLogin') || actions.includes('phoneOtpLogin') || actions.includes('phoneOtpResend');
 
   useEffect(() => {
     (async () => {
@@ -91,6 +93,21 @@ const VerifyOtp = () => {
     }
   };
 
+  const handleResend = async () => {
+    if (phoneOtp && phoneOtp.phoneNumber) {
+      await dispatch(
+        resend({
+          userType: 'guest',
+          phoneOtp: { phoneNumber: phoneOtp.phoneNumber },
+        })
+      )
+        .unwrap()
+        .catch((error) => {
+          error.message ? onToggleSnackBar(error.message) : onToggleSnackBar(error);
+        });
+    }
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} translucent backgroundColor='transparent' />
@@ -123,6 +140,7 @@ const VerifyOtp = () => {
               <Button
                 mode='contained'
                 loading={loading}
+                disabled={loading}
                 LinearGradientProps={{
                   style: { borderRadius: 30, width: 350, alignSelf: 'center' },
                   colors: ['#1897D3', '#79D44E'],
@@ -139,6 +157,12 @@ const VerifyOtp = () => {
             </>
           )}
         </Formik>
+
+        <TouchableOpacity onPress={handleResend}>
+          <Text variant='bodyLarge' style={[styles.titleBottom, { color: theme.colors.contrastText }]}>
+            {t('verify_otp_resend_title_text')}
+          </Text>
+        </TouchableOpacity>
       </View>
       <Snackbar style={{ backgroundColor: theme.colors.tertiary }} visible={visible} onDismiss={onDismissSnackBar}>
         <Text style={[styles.snackbarText, { color: theme.colors.white }]}> {snackbarMessage} </Text>
@@ -157,6 +181,7 @@ const styles = StyleSheet.create({
   buttonContainer: { height: 52 },
   button: { width: 350, backgroundColor: 'transparent' },
   buttonLabel: { fontWeight: 'bold' },
+  titleBottom: { textAlign: 'center', textDecorationLine: 'underline', marginTop: 10 },
   snackbarText: { textAlign: 'center' },
 });
 

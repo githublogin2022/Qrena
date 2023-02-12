@@ -9,6 +9,7 @@ const en = {
   register_first_field_label_text_field: 'First Name',
   register_second_field_label_text_field: 'Last Name',
   register_register_button_text_button: 'Register',
+  verify_otp_resend_title_text: 'Resend',
 };
 
 export default en;
