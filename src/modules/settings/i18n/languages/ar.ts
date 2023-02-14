@@ -16,6 +16,8 @@ const ar = {
   language_default_title_text: 'تلقائى',
   language_english_title_text: 'الانجليزية',
   language_arabic_title_text: 'العربية',
+  account_logout_button_title_text: 'تسجيل الخروج',
+  profile_save_button_title_text: 'حفظ',
 };
 
 export default ar;

@@ -33,3 +33,30 @@ export const create = createAsyncThunk(
     }
   }
 );
+
+export const resend = createAsyncThunk(
+  'phone-otp/resend',
+  async ({ userType, phoneOtp }: RequestParams, { rejectWithValue, dispatch }) => {
+    try {
+      dispatch(addAction('phoneOtpResend'));
+
+      const body = JSON.stringify(phoneOtp);
+
+      const res = await axios.post<{ phoneOtp: PhoneOtp }>(
+        `/phone-otps/resend?userType=${userType}`,
+        body,
+        requestConfig
+      );
+
+      return res.data;
+    } catch (_error) {
+      const error = _error as ApiError;
+      if (error.response?.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    } finally {
+      dispatch(removeAction('phoneOtpResend'));
+    }
+  }
+);

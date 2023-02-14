@@ -8,7 +8,7 @@ import { RadioButton } from '../modules/common/components';
 import { useTypedSelector, useTypedDispatch } from '../modules/app/hooks';
 import { update } from '../modules/app/theme';
 
-type Theme = { value: 'light' | 'dark' | 'default'; name: string; selected: boolean };
+type Theme = { value: 'light' | 'dark' | 'default'; name: string; isSelected: boolean };
 
 const AppTheme = () => {
   const { t } = useTranslation();
@@ -16,9 +16,9 @@ const AppTheme = () => {
     theme: { theme: globalTheme },
   } = useTypedSelector((state) => state);
   const [themes, setThemes] = useState<Theme[]>([
-    { value: 'default', name: t('theme_default_title_text'), selected: false },
-    { value: 'light', name: t('theme_light_title_text'), selected: false },
-    { value: 'dark', name: t('theme_dark_title_text'), selected: false },
+    { value: 'default', name: t('theme_default_title_text'), isSelected: false },
+    { value: 'light', name: t('theme_light_title_text'), isSelected: false },
+    { value: 'dark', name: t('theme_dark_title_text'), isSelected: false },
   ]);
   const dispatch = useTypedDispatch();
 
@@ -34,7 +34,7 @@ const AppTheme = () => {
 
       setThemes(
         themes.map((theme) =>
-          theme.value === storageTheme ? { ...theme, selected: true } : { ...theme, selected: false }
+          theme.value === storageTheme ? { ...theme, isSelected: true } : { ...theme, isSelected: false }
         )
       );
     })();
@@ -50,7 +50,7 @@ const AppTheme = () => {
 
     setThemes(
       themes.map((theme) =>
-        theme.value === _theme.value ? { ...theme, selected: true } : { ...theme, selected: false }
+        theme.value === _theme.value ? { ...theme, isSelected: true } : { ...theme, isSelected: false }
       )
     );
   };
@@ -63,7 +63,7 @@ const AppTheme = () => {
       {themes.map((_theme) => (
         <RadioButton
           key={_theme.value}
-          selected={_theme.selected}
+          isSelected={_theme.isSelected}
           onPress={async () => await onSelectTheme(_theme)}
           label={_theme.name}
         />

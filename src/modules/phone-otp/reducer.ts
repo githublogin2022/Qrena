@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { create } from './actions';
+import { create, resend } from './actions';
 import { PhoneOtp } from './types';
 
 const initialState = {
@@ -15,6 +15,9 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(create.fulfilled, (state, { payload }) => {
+      state.phoneOtp = payload.phoneOtp;
+    });
+    builder.addCase(resend.fulfilled, (state, { payload }) => {
       state.phoneOtp = payload.phoneOtp;
     });
   },

@@ -11,7 +11,7 @@ import { RadioButton } from '../modules/common/components';
 import { useTypedSelector } from '../modules/app/hooks';
 import { getDeviceLanguage } from '../modules/app/utils';
 
-type Language = { value: 'en' | 'ar' | 'default'; name: string; selected: boolean };
+type Language = { value: 'en' | 'ar' | 'default'; name: string; isSelected: boolean };
 
 const AppLanguage = () => {
   const {
@@ -19,9 +19,9 @@ const AppLanguage = () => {
   } = useTypedSelector((state) => state);
   const { t } = useTranslation();
   const [languages, setLanguages] = useState<Language[]>([
-    { value: 'default', name: t('language_default_title_text'), selected: false },
-    { value: 'en', name: t('language_english_title_text'), selected: false },
-    { value: 'ar', name: t('language_arabic_title_text'), selected: false },
+    { value: 'default', name: t('language_default_title_text'), isSelected: false },
+    { value: 'en', name: t('language_english_title_text'), isSelected: false },
+    { value: 'ar', name: t('language_arabic_title_text'), isSelected: false },
   ]);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const AppLanguage = () => {
 
       setLanguages(
         languages.map((_language) =>
-          _language.value === language ? { ..._language, selected: true } : { ..._language, selected: false }
+          _language.value === language ? { ..._language, isSelected: true } : { ..._language, isSelected: false }
         )
       );
     })();
@@ -66,7 +66,7 @@ const AppLanguage = () => {
 
     setLanguages(
       languages.map((_language) =>
-        _language.value === language.value ? { ..._language, selected: true } : { ..._language, selected: false }
+        _language.value === language.value ? { ..._language, isSelected: true } : { ..._language, isSelected: false }
       )
     );
   };
@@ -79,7 +79,7 @@ const AppLanguage = () => {
       {languages.map((language) => (
         <RadioButton
           key={language.value}
-          selected={language.selected}
+          isSelected={language.isSelected}
           onPress={async () => await onSelectLanguage(language)}
           label={language.name}
         />

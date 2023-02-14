@@ -9,6 +9,7 @@ const ar = {
   register_first_field_label_text_field: 'الاسم الأول',
   register_second_field_label_text_field: 'اسم العائلة',
   register_register_button_text_button: 'تسجيل',
+  verify_otp_resend_title_text: 'ارسال مرة اخرى',
 };
 
 export default ar;
