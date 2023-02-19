@@ -2,21 +2,41 @@ import React from 'react';
 import { View, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import { useTypedSelector } from '../../../modules/app/hooks';
+import { useTypedSelector, useTypedDispatch, useTypedNavigation } from '../../../modules/app/hooks';
+import { updateById } from '../actions';
+import { Notification as NotificationType } from '../types';
 
 type NotificationProps = {
-  title: string;
-  body: string;
+  _id?: string;
+  title?: string;
+  body?: string;
+  status?: 'Read' | 'UnRead';
+  onToggleSnackBar: (message: string) => void | undefined;
 };
 
 const Notification = (props: NotificationProps) => {
-  const { title, body } = props;
+  const { title, body, _id, status, onToggleSnackBar } = props;
   const {
     theme: { theme },
   } = useTypedSelector((state) => state);
+  const dispatch = useTypedDispatch();
+  const navigation = useTypedNavigation();
+
+  const onPress = async (notification: NotificationType) => {
+    notification._id && navigation.navigate('Chat', { id: notification._id });
+    if (notification.status === 'UnRead') {
+      await dispatch(updateById({ userType: 'user', id: notification._id, notification: { status: 'Read' } }))
+        .unwrap()
+        .catch((error) => {
+          error.message ? onToggleSnackBar(error.message) : onToggleSnackBar(error);
+        });
+    }
+  };
 
   return (
-    <TouchableOpacity style={[styles.Container, { borderBottomColor: theme.colors.contrastText }]}>
+    <TouchableOpacity
+      onPress={() => onPress({ _id, status })}
+      style={[styles.Container, { borderBottomColor: theme.colors.contrastText }]}>
       <Image
         style={styles.icon}
         resizeMode='stretch'

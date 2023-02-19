@@ -1,8 +1,8 @@
 import { UserType } from '../app/types';
 
 export type Notification = {
-  title: string;
-  body: string;
+  title?: string;
+  body?: string;
   redirectionURL?: string;
   _id?: string;
   sender?: string;

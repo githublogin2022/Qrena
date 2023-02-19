@@ -82,6 +82,31 @@ export const readById = createAsyncThunk(
   }
 );
 
+export const updateById = createAsyncThunk(
+  'notifications/updateById',
+  async ({ userType, id, notification }: RequestParams, { rejectWithValue, dispatch }) => {
+    try {
+      setAuthTokenService(await AsyncStorage.getItem(`${userType}Token`));
+
+      dispatch(addAction('notificationUpdateById'));
+
+      const body = JSON.stringify(notification);
+
+      const res = await axios.patch<Notification>(`/notifications/${id}?userType=${userType}`, body, requestConfig);
+
+      return res.data;
+    } catch (_error) {
+      const error = _error as ApiError;
+      if (error.response?.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    } finally {
+      dispatch(removeAction('notificationUpdateById'));
+    }
+  }
+);
+
 export const getCount = createAsyncThunk(
   'notifications/count',
   async ({ userType, queries }: RequestParams, { rejectWithValue, dispatch }) => {

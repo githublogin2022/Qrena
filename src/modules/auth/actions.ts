@@ -150,7 +150,7 @@ export const updateMe = createAsyncThunk(
 
       const body = JSON.stringify(user);
 
-      const res = await axios.patch<{ user: User }>(`/users/me?userType=${userType}`, body, requestConfig);
+      const res = await axios.patch<User>(`/users/me?userType=${userType}`, body, requestConfig);
 
       return res.data;
     } catch (_error) {

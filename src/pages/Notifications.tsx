@@ -39,7 +39,9 @@ const Notifications = () => {
         <FlatList
           style={styles.flatList}
           data={notifications}
-          renderItem={({ item: notification }) => <Notification {...notification} />}
+          renderItem={({ item: notification }) => (
+            <Notification {...notification} onToggleSnackBar={onToggleSnackBar} />
+          )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.FlatListContentContainer}
           ListEmptyComponent={
@@ -51,7 +53,7 @@ const Notifications = () => {
           }
         />
       )}
-      <Snackbar visible={visible} onDismiss={onDismissSnackBar}>
+      <Snackbar style={{ backgroundColor: theme.colors.tertiary }} visible={visible} onDismiss={onDismissSnackBar}>
         <Text style={styles.snackbarText}> {snackbarMessage} </Text>
       </Snackbar>
     </View>

@@ -11,7 +11,7 @@ export type RootStackParams = {
   Register: { token?: string | undefined; platform?: 'Ios' | 'Android' };
   Main: undefined;
   Home: undefined;
-  Chat: undefined;
+  Chat: { id: string };
   Chats: undefined;
   Scan: undefined;
   Settings: undefined;
