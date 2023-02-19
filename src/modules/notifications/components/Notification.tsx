@@ -11,11 +11,10 @@ type NotificationProps = {
   title?: string;
   body?: string;
   status?: 'Read' | 'UnRead';
-  onToggleSnackBar: (message: string) => void | undefined;
 };
 
 const Notification = (props: NotificationProps) => {
-  const { title, body, _id, status, onToggleSnackBar } = props;
+  const { title, body, _id, status } = props;
   const {
     theme: { theme },
   } = useTypedSelector((state) => state);
@@ -24,12 +23,9 @@ const Notification = (props: NotificationProps) => {
 
   const onPress = async (notification: NotificationType) => {
     notification._id && navigation.navigate('Chat', { id: notification._id });
+
     if (notification.status === 'UnRead') {
-      await dispatch(updateById({ userType: 'user', id: notification._id, notification: { status: 'Read' } }))
-        .unwrap()
-        .catch((error) => {
-          error.message ? onToggleSnackBar(error.message) : onToggleSnackBar(error);
-        });
+      await dispatch(updateById({ userType: 'user', id: notification._id, notification: { status: 'Read' } })).unwrap();
     }
   };
 

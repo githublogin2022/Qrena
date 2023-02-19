@@ -1,87 +1,112 @@
-import React from 'react';
-import { Text, FlatList, StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { Snackbar, Text } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 
 import { useTypedSelector, useTypedDispatch } from '../modules/app/hooks';
 import { updateVisibility } from '../modules/app/searchBarSlice';
 import { Chat } from '../modules/chats/components';
+import { read, readMore } from '../modules/chats/actions';
 
 const Chats = () => {
+  const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const {
     theme: { theme },
     searchBar: { isVisible, searchText },
+    chat: { chats, loadMore },
   } = useTypedSelector((state) => state);
+  const [visible, setVisible] = useState(false);
+  const [snackbarMessage, SetSnackbarMessage] = useState('');
+  const [offset, setOffset] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const data = [
-    {
-      id: '1',
-      user: 'Ahmed Mohamed',
-      content: 'Welcome to chat screen',
-      date: new Date('2023-01-15').toLocaleString('en-GB').slice(0, 5),
-      notifications: 1,
-    },
-    {
-      id: '2',
-      user: 'Sarah Youssef',
-      content: 'Welcome to chat screen',
-      date: new Date('2023-01-15').toLocaleString('en-GB').slice(0, 5),
-      notifications: 1,
-    },
-    {
-      id: '3',
-      user: 'Yousra Mostafa',
-      content: 'Welcome to chat screen',
-      date: new Date('2023-01-15').toLocaleString('en-GB').slice(0, 5),
-      notifications: 1,
-    },
-    {
-      id: '4',
-      user: 'Mahmoud Shalaby',
-      content: 'Welcome to chat screen',
-      date: new Date('2023-01-15').toLocaleString('en-GB').slice(0, 5),
-      notifications: 1,
-    },
-    {
-      id: '5',
-      user: 'Islam Mohamed',
-      content: 'Welcome to chat screen',
-      date: new Date('2023-01-15').toLocaleString('en-GB').slice(0, 5),
-    },
-  ];
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | null;
 
-  const filterData = (searchString: string) => {
-    const filteredData = data.filter((item) => item.user.toLowerCase().toString().includes(searchString.toLowerCase()));
+    timer = setTimeout(async () => {
+      timer = null;
 
-    return filteredData;
+      await onRefresh();
+    }, 500);
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [searchText]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const onToggleSnackBar = (message: string) => {
+    SetSnackbarMessage(message);
+    setVisible(!visible);
+  };
+
+  const onDismissSnackBar = () => setVisible(false);
+
+  const onEndReached = async () => {
+    setLoading(true);
+
+    await dispatch(readMore({ userType: 'user', queries: `limit=10&skip=${offset * 10}&searchString=${searchText}` }))
+      .unwrap()
+      .then(() => setOffset(offset + 1))
+      .catch((error) => {
+        error.message ? onToggleSnackBar(error.message) : onToggleSnackBar(error);
+      });
+
+    setLoading(false);
+  };
+
+  const onRefresh = async () => {
+    setLoading(true);
+
+    await dispatch(read({ userType: 'user', queries: `limit=10&searchString=${searchText}` }))
+      .unwrap()
+      .then(() => setOffset(1))
+      .catch((error) => {
+        error.message ? onToggleSnackBar(error.message) : onToggleSnackBar(error);
+      });
+
+    setLoading(false);
   };
 
   return (
-    <FlatList
-      style={[{ backgroundColor: theme.colors.background }]}
-      data={filterData(searchText)}
-      renderItem={({ item }) => (
-        <Chat user={item.user} content={item.content} date={item.date} notifications={item.notifications} />
-      )}
-      showsVerticalScrollIndicator={false}
-      keyExtractor={(item) => item.id}
-      contentContainerStyle={styles.FlatListContentContainer}
-      ListEmptyComponent={
-        <View style={styles.FlatListContainer}>
-          <Text style={{ color: theme.colors.contrastText }}>No results found</Text>
-        </View>
-      }
-      onScroll={() => {
-        if (!searchText && isVisible) {
-          dispatch(updateVisibility(false));
+    <>
+      <FlatList
+        style={[{ backgroundColor: theme.colors.background }]}
+        data={chats}
+        renderItem={({ item: chat }) => <Chat {...chat} />}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => item._id}
+        contentContainerStyle={styles.FlatListContentContainer}
+        ListEmptyComponent={
+          offset > 0 && chats.length === 0 ? (
+            <View style={[styles.FlatListContainer, { backgroundColor: theme.colors.background }]}>
+              <Text style={{ color: theme.colors.contrastText }}>{t('chats_no_results_text')}</Text>
+            </View>
+          ) : undefined
         }
-      }}
-    />
+        onScroll={() => {
+          if (!searchText && isVisible) {
+            dispatch(updateVisibility(false));
+          }
+        }}
+        refreshing={loading}
+        onRefresh={onRefresh}
+        onEndReached={loadMore && !loading ? onEndReached : undefined}
+        onEndReachedThreshold={0.05}
+      />
+      <Snackbar style={{ backgroundColor: theme.colors.tertiary }} visible={visible} onDismiss={onDismissSnackBar}>
+        <Text style={[styles.snackbarText, { color: theme.colors.white }]}> {snackbarMessage} </Text>
+      </Snackbar>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   FlatListContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   FlatListContentContainer: { flexGrow: 1 },
+  snackbarText: { textAlign: 'center' },
 });
 
 export default Chats;

@@ -8,14 +8,14 @@ import { RadioButton } from '../modules/common/components';
 import { useTypedSelector, useTypedDispatch } from '../modules/app/hooks';
 import { update } from '../modules/app/theme';
 
-type Theme = { value: 'light' | 'dark' | 'default'; name: string; isSelected: boolean };
+type ThemeType = { value: 'light' | 'dark' | 'default'; name: string; isSelected: boolean };
 
-const AppTheme = () => {
+const Theme = () => {
   const { t } = useTranslation();
   const {
     theme: { theme: globalTheme },
   } = useTypedSelector((state) => state);
-  const [themes, setThemes] = useState<Theme[]>([
+  const [themes, setThemes] = useState<ThemeType[]>([
     { value: 'default', name: t('theme_default_title_text'), isSelected: false },
     { value: 'light', name: t('theme_light_title_text'), isSelected: false },
     { value: 'dark', name: t('theme_dark_title_text'), isSelected: false },
@@ -40,7 +40,7 @@ const AppTheme = () => {
     })();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onSelectTheme = async (_theme: Theme) => {
+  const onSelectTheme = async (_theme: ThemeType) => {
     await dispatch(
       update({
         type: _theme.value === 'default' ? 'phone' : 'user',
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
   Container: { flex: 1, paddingTop: 15, paddingLeft: 15 },
 });
 
-export default AppTheme;
+export default Theme;

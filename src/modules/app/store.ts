@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { authReducer } from '../auth';
+import { chatReducer } from '../chats';
 import { phoneOtpReducer } from '../phone-otp';
 import { qrCodeReducer } from '../home';
 import loader from './loader';
@@ -12,6 +13,7 @@ import notificationsReducer from '../notifications/reducer';
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    chat: chatReducer,
     loader,
     theme,
     phoneOtp: phoneOtpReducer,

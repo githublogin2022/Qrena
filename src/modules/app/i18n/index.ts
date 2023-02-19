@@ -10,9 +10,10 @@ import appAr from './languages/ar';
 import { OnboardingEn, OnboardingAr } from '../../onboarding/i18n';
 import { AuthEn, AuthAr } from '../../auth/i18n';
 import { SettingsEn, SettingsAr } from '../../settings/i18n';
+import { ChatsEn, ChatsAr } from '../../chats/i18n';
 
-const en = { translation: { ...appEn, ...OnboardingEn, ...AuthEn, ...SettingsEn } };
-const ar = { translation: { ...appAr, ...OnboardingAr, ...AuthAr, ...SettingsAr } };
+const en = { translation: { ...appEn, ...OnboardingEn, ...AuthEn, ...SettingsEn, ...ChatsEn } };
+const ar = { translation: { ...appAr, ...OnboardingAr, ...AuthAr, ...SettingsAr, ...ChatsAr } };
 
 i18n
   .use({

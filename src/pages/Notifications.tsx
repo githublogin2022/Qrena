@@ -39,9 +39,7 @@ const Notifications = () => {
         <FlatList
           style={styles.flatList}
           data={notifications}
-          renderItem={({ item: notification }) => (
-            <Notification {...notification} onToggleSnackBar={onToggleSnackBar} />
-          )}
+          renderItem={({ item: notification }) => <Notification {...notification} />}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.FlatListContentContainer}
           ListEmptyComponent={
