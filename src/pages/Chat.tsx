@@ -6,7 +6,7 @@ const Chat = () => {
   const data = [{ id: '1', text: 'hey' }];
 
   return (
-    <View style={styles.Container}>
+    <View style={styles.container}>
       <FlatList
         ref={flatListRef}
         data={data}
@@ -22,7 +22,7 @@ const Chat = () => {
 };
 
 const styles = StyleSheet.create({
-  Container: { flex: 1 },
+  container: { flex: 1 },
   child: { color: 'black' },
   footer: { backgroundColor: 'red', height: 90, justifyContent: 'center', alignItems: 'center' },
 });

@@ -31,7 +31,7 @@ const Account = () => {
   };
 
   return (
-    <View style={[styles.Container, { backgroundColor: theme.colors.background }]}>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <Button
         mode='contained'
         loading={actions.includes('logout')}
@@ -57,7 +57,7 @@ const Account = () => {
 };
 
 const styles = StyleSheet.create({
-  Container: { flex: 1, alignItems: 'center' },
+  container: { flex: 1, alignItems: 'center' },
   buttonContainer: { height: 45 },
   button: { width: 150, backgroundColor: 'transparent' },
   buttonLabel: { fontWeight: 'bold' },

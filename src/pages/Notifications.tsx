@@ -32,7 +32,7 @@ const Notifications = () => {
   const onDismissSnackBar = () => setVisible(false);
 
   return (
-    <View style={[styles.FlatListContainer, { backgroundColor: theme.colors.background }]}>
+    <View style={[styles.flatListContainer, { backgroundColor: theme.colors.background }]}>
       {actions.includes('notificationRead') ? (
         <ActivityIndicator />
       ) : (
@@ -41,7 +41,7 @@ const Notifications = () => {
           data={notifications}
           renderItem={({ item: notification }) => <Notification {...notification} />}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.FlatListContentContainer}
+          contentContainerStyle={styles.flatListContentContainer}
           ListEmptyComponent={
             <View style={styles.listEmptyComponentContainer}>
               <Text variant='titleLarge' style={{ color: theme.colors.contrastText }}>
@@ -59,9 +59,9 @@ const Notifications = () => {
 };
 
 const styles = StyleSheet.create({
-  FlatListContainer: { flex: 1, justifyContent: 'center' },
+  flatListContainer: { flex: 1, justifyContent: 'center' },
   flatList: { marginTop: 15 },
-  FlatListContentContainer: { flexGrow: 1 },
+  flatListContentContainer: { flexGrow: 1 },
   listEmptyComponentContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   snackbarText: { textAlign: 'center' },
 });

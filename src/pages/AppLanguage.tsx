@@ -72,7 +72,7 @@ const AppLanguage = () => {
   };
 
   return (
-    <View style={[styles.Container, { backgroundColor: theme.colors.background }]}>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <Text variant='titleMedium' style={{ color: theme.colors.contrastText }}>
         {t('language_choose_language_title_text')}
       </Text>
@@ -89,7 +89,7 @@ const AppLanguage = () => {
 };
 
 const styles = StyleSheet.create({
-  Container: { flex: 1, paddingTop: 15, paddingLeft: 15 },
+  container: { flex: 1, paddingTop: 15, paddingLeft: 15 },
 });
 
 export default AppLanguage;

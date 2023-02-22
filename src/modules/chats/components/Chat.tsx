@@ -17,17 +17,17 @@ const Chat = (props: ChatProps) => {
   const navigation = useTypedNavigation();
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Chat', { id: _id })} style={[styles.Container]}>
-      <View style={styles.ContentContainer}>
+    <TouchableOpacity onPress={() => navigation.navigate('Chat', { id: _id })} style={[styles.container]}>
+      <View style={styles.avatarContainer}>
         {receiver.profilePictureUrl ? (
-          <Avatar.Image size={55} source={{ uri: receiver.profilePictureUrl }} style={[styles.AvatarContainer]} />
+          <Avatar.Image size={55} source={{ uri: receiver.profilePictureUrl }} style={[styles.avatar]} />
         ) : (
           <Avatar.Text
             size={55}
             label={`${receiver.displayName.split(' ')[0].charAt(0)}${receiver.displayName.split(' ')[1].charAt(0)}`}
             color={theme.colors.white}
-            labelStyle={styles.InitialsContainer}
-            style={[styles.AvatarContainer, { backgroundColor: theme.colors.tertiary }]}
+            labelStyle={styles.avatarText}
+            style={[styles.avatar, { backgroundColor: theme.colors.tertiary }]}
           />
         )}
         <View style={styles.textContainer}>
@@ -45,7 +45,7 @@ const Chat = (props: ChatProps) => {
           </Text>
         </View>
       </View>
-      <View style={styles.InfoContainer}>
+      <View style={styles.infoContainer}>
         {lastMessage && (
           <Text variant='bodySmall' style={{ color: theme.colors.grey['500'] }}>
             {new Date(lastMessage.date).toLocaleString('en-GB').slice(0, 5)}
@@ -62,13 +62,13 @@ const Chat = (props: ChatProps) => {
 };
 
 const styles = StyleSheet.create({
-  Container: { flex: 1, flexDirection: 'row', marginHorizontal: 20, marginTop: 30, justifyContent: 'space-between' },
+  container: { flex: 1, flexDirection: 'row', marginHorizontal: 20, marginTop: 30, justifyContent: 'space-between' },
   textContainer: { flex: 1 },
   titleContainer: { marginBottom: 5 },
-  AvatarContainer: { marginRight: 20 },
-  InitialsContainer: { fontSize: 18, fontWeight: '600' },
-  ContentContainer: { flexDirection: 'row', flex: 1 },
-  InfoContainer: { justifyContent: 'space-between' },
+  avatar: { marginRight: 20 },
+  avatarText: { fontSize: 18, fontWeight: '600' },
+  avatarContainer: { flexDirection: 'row', flex: 1 },
+  infoContainer: { justifyContent: 'space-between' },
 });
 
 export default Chat;

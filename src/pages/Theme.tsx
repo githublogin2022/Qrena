@@ -56,7 +56,7 @@ const Theme = () => {
   };
 
   return (
-    <View style={[styles.Container, { backgroundColor: globalTheme.colors.background }]}>
+    <View style={[styles.container, { backgroundColor: globalTheme.colors.background }]}>
       <Text variant='titleMedium' style={{ color: globalTheme.colors.contrastText }}>
         {t('theme_choose_theme_title_text')}
       </Text>
@@ -73,7 +73,7 @@ const Theme = () => {
 };
 
 const styles = StyleSheet.create({
-  Container: { flex: 1, paddingTop: 15, paddingLeft: 15 },
+  container: { flex: 1, paddingTop: 15, paddingLeft: 15 },
 });
 
 export default Theme;

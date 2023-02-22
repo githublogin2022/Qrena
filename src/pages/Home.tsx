@@ -39,13 +39,13 @@ const Home = () => {
   }, [dispatch, onToggleSnackBar]);
 
   return (
-    <View style={[styles.Container, { backgroundColor: theme.colors.background }]}>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       {actions.includes('qrCodeRead') || qrCodes.length === 0 || !me ? (
         <ActivityIndicator size='large' color={theme.colors.tertiary} />
       ) : (
         <View
           style={[
-            styles.QrCodeContainer,
+            styles.qrCodeContainer,
             {
               backgroundColor: theme.colors.white,
               height: theme.windowHeight / 4 + 50,
@@ -66,8 +66,8 @@ const Home = () => {
 };
 
 const styles = StyleSheet.create({
-  Container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  QrCodeContainer: { borderRadius: 30, justifyContent: 'center', alignItems: 'center' },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  qrCodeContainer: { borderRadius: 30, justifyContent: 'center', alignItems: 'center' },
   snackbarText: { textAlign: 'center' },
 });
 

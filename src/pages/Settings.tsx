@@ -99,13 +99,13 @@ const Settings = () => {
       renderItem={({ item }) => <Setting title={item.title} icon={item.icon} onPress={item.onPress} />}
       showsVerticalScrollIndicator={false}
       keyExtractor={(item) => item.title}
-      contentContainerStyle={styles.FlatListContentContainer}
+      contentContainerStyle={styles.flatListContentContainer}
     />
   );
 };
 
 const styles = StyleSheet.create({
-  FlatListContentContainer: { flexGrow: 1 },
+  flatListContentContainer: { flexGrow: 1 },
 });
 
 export default Settings;

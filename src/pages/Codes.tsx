@@ -9,14 +9,14 @@ const Codes = () => {
   } = useTypedSelector((state) => state);
 
   return (
-    <View style={[styles.Container, { backgroundColor: theme.colors.background }]}>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <Text>Welcome to Codes Screen</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  Container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });
 
 export default Codes;

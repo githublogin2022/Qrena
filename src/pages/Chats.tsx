@@ -78,10 +78,10 @@ const Chats = () => {
         renderItem={({ item: chat }) => <Chat {...chat} />}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item._id}
-        contentContainerStyle={styles.FlatListContentContainer}
+        contentContainerStyle={styles.flatListContentContainer}
         ListEmptyComponent={
           offset > 0 && chats.length === 0 ? (
-            <View style={[styles.FlatListContainer, { backgroundColor: theme.colors.background }]}>
+            <View style={[styles.flatListContainer, { backgroundColor: theme.colors.background }]}>
               <Text style={{ color: theme.colors.contrastText }}>{t('chats_no_results_text')}</Text>
             </View>
           ) : undefined
@@ -104,8 +104,8 @@ const Chats = () => {
 };
 
 const styles = StyleSheet.create({
-  FlatListContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  FlatListContentContainer: { flexGrow: 1 },
+  flatListContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  flatListContentContainer: { flexGrow: 1 },
   snackbarText: { textAlign: 'center' },
 });
 

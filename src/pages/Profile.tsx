@@ -42,7 +42,7 @@ const Profile = () => {
   };
 
   return (
-    <View style={[styles.Container, { backgroundColor: theme.colors.background }]}>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <View style={styles.contentContainer}>
         <Formik
           initialValues={{
@@ -104,7 +104,7 @@ const Profile = () => {
 };
 
 const styles = StyleSheet.create({
-  Container: { flex: 1 },
+  container: { flex: 1 },
   contentContainer: { marginTop: 20, paddingHorizontal: 30 },
   textFieldContainer: { marginBottom: 10 },
   textField: { backgroundColor: 'rgba(255, 255, 255, 1)' },

@@ -32,7 +32,7 @@ const Notification = (props: NotificationProps) => {
   return (
     <TouchableOpacity
       onPress={() => onPress({ _id, status })}
-      style={[styles.Container, { borderBottomColor: theme.colors.contrastText }]}>
+      style={[styles.container, { borderBottomColor: theme.colors.contrastText }]}>
       <Image
         style={styles.icon}
         resizeMode='stretch'
@@ -55,7 +55,7 @@ const Notification = (props: NotificationProps) => {
 };
 
 const styles = StyleSheet.create({
-  Container: {
+  container: {
     width: Dimensions.get('window').width - 20,
     flexDirection: 'row',
     borderBottomWidth: StyleSheet.hairlineWidth,
