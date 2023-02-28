@@ -9,16 +9,26 @@ import { Chat as ChatType } from '../types';
 type ChatProps = ChatType;
 
 const Chat = (props: ChatProps) => {
+  const { receiver, lastMessage, notifications } = props;
+  const navigation = useTypedNavigation();
   const { t } = useTranslation();
-  const { _id, receiver, lastMessage, notifications } = props;
   const {
     theme: { theme },
   } = useTypedSelector((state) => state);
-  const navigation = useTypedNavigation();
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Chat', { id: _id })} style={[styles.container]}>
-      <View style={styles.avatarContainer}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('Messages', {
+          receiver: {
+            _id: receiver._id,
+            profilePictureUrl: receiver.profilePictureUrl,
+            displayName: receiver.displayName,
+          },
+        })
+      }
+      style={[styles.container]}>
+      <View style={styles.contentContainer}>
         {receiver.profilePictureUrl ? (
           <Avatar.Image size={55} source={{ uri: receiver.profilePictureUrl }} style={[styles.avatar]} />
         ) : (
@@ -67,7 +77,7 @@ const styles = StyleSheet.create({
   titleContainer: { marginBottom: 5 },
   avatar: { marginRight: 20 },
   avatarText: { fontSize: 18, fontWeight: '600' },
-  avatarContainer: { flexDirection: 'row', flex: 1 },
+  contentContainer: { flexDirection: 'row', flex: 1 },
   infoContainer: { justifyContent: 'space-between' },
 });
 

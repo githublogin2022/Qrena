@@ -36,10 +36,7 @@ const VerifyOtp = () => {
         const token = await firebase.requestUserPermission();
 
         setNotificationToken(token);
-      } catch (_error) {
-        const error = _error as { name: string; message: string };
-        console.log(error);
-      }
+      } catch (_error) {}
     })();
   }, []);
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import { Snackbar, Text } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { ActivityIndicator, Snackbar, Text } from 'react-native-paper';
 import QRCode from 'react-native-qrcode-svg';
 
 import { useTypedDispatch, useTypedSelector } from '../modules/app/hooks';
@@ -41,7 +41,7 @@ const Home = () => {
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       {actions.includes('qrCodeRead') || qrCodes.length === 0 || !me ? (
-        <ActivityIndicator size='large' color={theme.colors.tertiary} />
+        <ActivityIndicator color={theme.colors.tertiary} />
       ) : (
         <View
           style={[

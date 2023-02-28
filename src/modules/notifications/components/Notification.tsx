@@ -6,12 +6,7 @@ import { useTypedSelector, useTypedDispatch, useTypedNavigation } from '../../..
 import { updateById } from '../actions';
 import { Notification as NotificationType } from '../types';
 
-type NotificationProps = {
-  _id?: string;
-  title?: string;
-  body?: string;
-  status?: 'Read' | 'UnRead';
-};
+type NotificationProps = { _id?: string; title?: string; body?: string; status?: 'Read' | 'UnRead' };
 
 const Notification = (props: NotificationProps) => {
   const { title, body, _id, status } = props;
@@ -22,7 +17,7 @@ const Notification = (props: NotificationProps) => {
   const navigation = useTypedNavigation();
 
   const onPress = async (notification: NotificationType) => {
-    notification._id && navigation.navigate('Chat', { id: notification._id });
+    notification._id && navigation.navigate('Messages', { chatId: notification._id });
 
     if (notification.status === 'UnRead') {
       await dispatch(updateById({ userType: 'user', id: notification._id, notification: { status: 'Read' } })).unwrap();

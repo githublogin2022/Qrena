@@ -8,7 +8,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 
 import {
-  Chat,
+  Messages,
   Login,
   Notifications,
   OnBoarding,
@@ -26,6 +26,7 @@ import {
   Privacy,
   Help,
 } from './src/pages';
+import { Header } from './src/modules/messages/components';
 import { useTypedDispatch, useTypedSelector } from './src/modules/app/hooks';
 import { RootStackParams, Android, IOS, RemoteMessage } from './src/modules/app/types';
 import { read } from './src/modules/onboarding/visibility';
@@ -103,7 +104,7 @@ const App: () => JSX.Element = () => {
           {isAuthenticated ? (
             <>
               <Stack.Screen name='Main' component={TabNavigator} options={{ headerShown: false }} />
-              <Stack.Screen name='Chat' component={Chat} />
+              <Stack.Screen name='Messages' component={Messages} options={{ header: (rest) => <Header {...rest} /> }} />
               <Stack.Screen name='Notifications' component={Notifications} />
               <Stack.Screen name='Scan' component={Scan} />
               <Stack.Screen name='ChatSettings' component={ChatSettings} />

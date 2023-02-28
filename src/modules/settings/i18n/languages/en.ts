@@ -18,6 +18,8 @@ const en = {
   language_arabic_title_text: 'Arabic',
   account_logout_button_title_text: 'LogOut',
   profile_save_button_title_text: 'Save',
+  privacy_no_results_text: 'No results found',
+  privacy_unblock_button_title_text: 'UnBlock',
 };
 
 export default en;

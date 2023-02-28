@@ -11,9 +11,10 @@ import { OnboardingEn, OnboardingAr } from '../../onboarding/i18n';
 import { AuthEn, AuthAr } from '../../auth/i18n';
 import { SettingsEn, SettingsAr } from '../../settings/i18n';
 import { ChatsEn, ChatsAr } from '../../chats/i18n';
+import { MessagesEn, MessagesAr } from '../../messages/i18n';
 
-const en = { translation: { ...appEn, ...OnboardingEn, ...AuthEn, ...SettingsEn, ...ChatsEn } };
-const ar = { translation: { ...appAr, ...OnboardingAr, ...AuthAr, ...SettingsAr, ...ChatsAr } };
+const en = { translation: { ...appEn, ...OnboardingEn, ...AuthEn, ...SettingsEn, ...ChatsEn, ...MessagesEn } };
+const ar = { translation: { ...appAr, ...OnboardingAr, ...AuthAr, ...SettingsAr, ...ChatsAr, ...MessagesAr } };
 
 i18n
   .use({

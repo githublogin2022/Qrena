@@ -10,9 +10,11 @@ export type User = {
   email?: string;
   password?: string;
   token?: string;
+  blockedList?: { _id?: string; user: { _id?: string; displayName?: string } }[];
   platform?: 'Ios' | 'Android';
 };
 export type RequestParams = {
   userType: UserType;
   user?: User;
+  id?: string;
 };

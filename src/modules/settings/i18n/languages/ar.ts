@@ -18,6 +18,8 @@ const ar = {
   language_arabic_title_text: 'العربية',
   account_logout_button_title_text: 'تسجيل الخروج',
   profile_save_button_title_text: 'حفظ',
+  privacy_no_results_text: 'لا يوجد نتائج',
+  privacy_unblock_button_title_text: 'فك الحظر',
 };
 
 export default ar;

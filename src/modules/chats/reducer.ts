@@ -9,10 +9,17 @@ const initialState = { chats: [], chat: null, loadMore: false } as {
   loadMore: boolean;
 };
 
-const slice = createSlice({
+const {
+  reducer,
+  actions: { update },
+} = createSlice({
   name: 'chat',
   initialState,
-  reducers: {},
+  reducers: {
+    update: (state, { payload }) => {
+      state.chats = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(read.fulfilled, (state, { payload }) => {
       state.chats = payload;
@@ -25,4 +32,5 @@ const slice = createSlice({
   },
 });
 
-export default slice.reducer;
+export { update };
+export default reducer;

@@ -142,11 +142,11 @@ export const readMe = createAsyncThunk(
 
 export const updateMe = createAsyncThunk(
   'user/updateMe',
-  async ({ userType, user }: RequestParams, { rejectWithValue, dispatch }) => {
+  async ({ userType, user, id }: RequestParams, { rejectWithValue, dispatch }) => {
     try {
       setAuthTokenService(await AsyncStorage.getItem(`${userType}Token`));
 
-      dispatch(addAction('userUpdateMe'));
+      dispatch(addAction(`userUpdateMe${id}`));
 
       const body = JSON.stringify(user);
 
@@ -160,7 +160,7 @@ export const updateMe = createAsyncThunk(
       }
       return rejectWithValue(error.message);
     } finally {
-      dispatch(removeAction('userUpdateMe'));
+      dispatch(removeAction(`userUpdateMe${id}`));
     }
   }
 );

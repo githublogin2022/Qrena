@@ -18,9 +18,7 @@ const Scan = () => {
     (async () => {
       try {
         setHasPermission(await permission.checkPermission(permission.permissionTypes.camera));
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     })();
   }, []);
 

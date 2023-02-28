@@ -81,7 +81,7 @@ const Chats = () => {
         contentContainerStyle={styles.flatListContentContainer}
         ListEmptyComponent={
           offset > 0 && chats.length === 0 ? (
-            <View style={[styles.flatListContainer, { backgroundColor: theme.colors.background }]}>
+            <View style={styles.flatListContainer}>
               <Text style={{ color: theme.colors.contrastText }}>{t('chats_no_results_text')}</Text>
             </View>
           ) : undefined
