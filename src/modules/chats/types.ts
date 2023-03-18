@@ -8,9 +8,12 @@ export type Chat = {
   status: string;
   lastMessage?: { body: string; date: string };
   notifications?: number;
+  muteDuration?: number;
 };
 
 export type RequestParams = {
   userType: UserType;
   queries?: string;
+  id?: string;
+  chat?: { status: string; muteDuration?: number | string };
 };

@@ -9,7 +9,7 @@ import { Chat as ChatType } from '../types';
 type ChatProps = ChatType;
 
 const Chat = (props: ChatProps) => {
-  const { receiver, lastMessage, notifications } = props;
+  const { receiver, lastMessage, notifications, _id } = props;
   const navigation = useTypedNavigation();
   const { t } = useTranslation();
   const {
@@ -25,6 +25,7 @@ const Chat = (props: ChatProps) => {
             profilePictureUrl: receiver.profilePictureUrl,
             displayName: receiver.displayName,
           },
+          chatId: _id,
         })
       }
       style={[styles.container]}>

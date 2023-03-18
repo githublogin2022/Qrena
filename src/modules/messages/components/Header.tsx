@@ -22,7 +22,7 @@ const Header = (props: NativeStackHeaderProps) => {
   const dispatch = useTypedDispatch();
   const { t, i18n } = useTranslation();
   const {
-    params: { receiver },
+    params: { receiver, chatId },
   } = useRoute<RouteProp<RootStackParams, 'Messages'>>();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMuteDialogVisible, setIsMuteDialogVisible] = useState(false);
@@ -130,7 +130,7 @@ const Header = (props: NativeStackHeaderProps) => {
           title={t('header_menu_item_second_title_text')}
         />
       </Menu>
-      <MuteDialogOptions visible={isMuteDialogVisible} handleDialogClose={handleMuteDialogClose} />
+      <MuteDialogOptions visible={isMuteDialogVisible} handleDialogClose={handleMuteDialogClose} chatId={chatId} />
     </Appbar.Header>
   );
 };
