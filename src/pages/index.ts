@@ -7,6 +7,8 @@ import Home from './Home';
 import AppLanguage from './AppLanguage';
 import Login from './Login';
 import Messages from './Messages';
+import ImageView from './ImageView';
+import VideoView from './VideoView';
 import Notifications from './Notifications';
 import NotificationsSettings from './NotificationsSettings';
 import OnBoarding from './OnBoarding';
@@ -29,6 +31,8 @@ export {
   AppLanguage,
   Login,
   Messages,
+  ImageView,
+  VideoView,
   Notifications,
   NotificationsSettings,
   OnBoarding,

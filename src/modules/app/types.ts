@@ -11,7 +11,37 @@ export type RootStackParams = {
   Register: { token?: string | undefined; platform?: 'Ios' | 'Android' };
   Main: undefined;
   Home: undefined;
-  Messages: { receiver?: { _id?: string; profilePictureUrl?: string; displayName: string }; chatId?: string };
+  Messages: {
+    receiver?: { _id?: string; profilePictureUrl?: string; displayName: string };
+    sender?: string;
+    chatId?: string;
+    receiverQrCode?: { _id?: string; combination: string; name: string };
+    senderQrCode?: { _id?: string; combination: string; name: string };
+  };
+  Image: {
+    url: string;
+    fileName?: string;
+  };
+  Video: {
+    url: string;
+    fileName?: string;
+  };
+  SendCapturedAttachment: {
+    url: string;
+    type: 'image' | 'video';
+    name?: string;
+    size?: number;
+    chatId?: string;
+    receiverId?: string;
+    receiverQrCode?: string;
+    senderQrCode?: string;
+  };
+  Camera: {
+    senderQrCode?: string;
+    receiverId?: string;
+    receiverQrCode?: string;
+    chatId?: string;
+  };
   Chats: undefined;
   Scan: undefined;
   Settings: undefined;

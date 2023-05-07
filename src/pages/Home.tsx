@@ -53,7 +53,7 @@ const Home = () => {
             },
           ]}>
           <QRCode
-            value={`${getUrl('webClient')}/chats/${me._id}-${qrCodes[0].combination}`}
+            value={`${getUrl()}/chats/${me._id}-${qrCodes[0].combination}`}
             size={theme.windowHeight / 4}
           />
         </View>

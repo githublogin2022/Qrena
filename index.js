@@ -9,12 +9,15 @@ import store from './src/modules/app/store';
 import { name as appName } from './app.json';
 import { getUrl } from './src/modules/app/utils';
 
-axios.defaults.baseURL = getUrl('server');
+//axios.defaults.baseURL = getUrl('server');
+axios.defaults.baseURL = getUrl();
 
 const Root = () => {
   return (
     <StoreProvider store={store}>
-      <App />
+      <PaperProvider>
+        <App />
+      </PaperProvider>
     </StoreProvider>
   );
 };

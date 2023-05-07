@@ -9,12 +9,13 @@ import { Chat as ChatType } from '../types';
 type ChatProps = ChatType;
 
 const Chat = (props: ChatProps) => {
-  const { receiver, lastMessage, notifications, _id } = props;
+  const { receiver, sender, lastMessage, notifications, _id, receiverQrCode, senderQrCode } = props;
   const navigation = useTypedNavigation();
   const { t } = useTranslation();
   const {
     theme: { theme },
   } = useTypedSelector((state) => state);
+  const displayName = receiver.displayName.split(' ');
 
   return (
     <TouchableOpacity
@@ -26,6 +27,17 @@ const Chat = (props: ChatProps) => {
             displayName: receiver.displayName,
           },
           chatId: _id,
+          receiverQrCode: {
+            _id: receiverQrCode._id,
+            combination: receiverQrCode.combination,
+            name: receiverQrCode.name,
+          },
+          senderQrCode: {
+            _id: senderQrCode._id,
+            combination: senderQrCode.combination,
+            name: senderQrCode.name,
+          },
+          sender: sender,
         })
       }
       style={[styles.container]}>
@@ -35,7 +47,11 @@ const Chat = (props: ChatProps) => {
         ) : (
           <Avatar.Text
             size={55}
-            label={`${receiver.displayName.split(' ')[0].charAt(0)}${receiver.displayName.split(' ')[1].charAt(0)}`}
+            label={
+              displayName.length > 1
+                ? `${displayName[0].charAt(0).toUpperCase()}${displayName[1].charAt(0).toUpperCase()}`
+                : `${displayName[0].charAt(0).toUpperCase()}`
+            }
             color={theme.colors.white}
             labelStyle={styles.avatarText}
             style={[styles.avatar, { backgroundColor: theme.colors.tertiary }]}

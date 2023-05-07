@@ -9,6 +9,8 @@ import messaging from '@react-native-firebase/messaging';
 
 import {
   Messages,
+  ImageView,
+  VideoView,
   Login,
   Notifications,
   OnBoarding,
@@ -33,6 +35,8 @@ import { read } from './src/modules/onboarding/visibility';
 import { update } from './src/modules/app/theme';
 import { TabNavigator } from './src/modules/app/components';
 import { create } from './src/modules/notifications/actions';
+import Camera from './src/modules/messages/components/Camera';
+import SendCapturedAttachment from './src/modules/messages/components/SendCapturedAttachment';
 
 const App: () => JSX.Element = () => {
   const dispatch = useTypedDispatch();
@@ -105,6 +109,14 @@ const App: () => JSX.Element = () => {
             <>
               <Stack.Screen name='Main' component={TabNavigator} options={{ headerShown: false }} />
               <Stack.Screen name='Messages' component={Messages} options={{ header: (rest) => <Header {...rest} /> }} />
+              <Stack.Screen name='Image' component={ImageView} options={{ headerShown: false }} />
+              <Stack.Screen name='Video' component={VideoView} options={{ headerShown: false }} />
+              <Stack.Screen name='Camera' component={Camera} options={{ headerShown: false }} />
+              <Stack.Screen
+                name='SendCapturedAttachment'
+                component={SendCapturedAttachment}
+                options={{ headerShown: false }}
+              />
               <Stack.Screen name='Notifications' component={Notifications} />
               <Stack.Screen name='Scan' component={Scan} />
               <Stack.Screen name='ChatSettings' component={ChatSettings} />
