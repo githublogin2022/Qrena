@@ -25,6 +25,9 @@ import ForwardChat from '../modules/messages/components/ForwardChat';
 import { FooterProps, ForwardChatProps, Message as MessageType } from '../modules/messages/types';
 import { Chat } from '../modules/chats/types';
 
+// import { Toasts } from '@backpackapp-io/react-native-toast';
+// import { toast } from '@backpackapp-io/react-native-toast';
+
 type ForwardChatList = {
   chat: Chat;
   checked: boolean;
@@ -144,6 +147,7 @@ const Messages = () => {
 
   // send the selected attachments
   const sendAttachment = async (files: DocumentPickerResponse[], type: string) => {
+    //toast('Sending...', { duration: 2000 });
     const token = await AsyncStorage.getItem('userToken');
 
     setAuthTokenService(token);
@@ -174,6 +178,7 @@ const Messages = () => {
         refreshMessages('sendAttachment()');
       })
       .catch((error) => {
+        //toast("Couldn't send", { duration: 2500 });
         console.warn(error);
       });
   };

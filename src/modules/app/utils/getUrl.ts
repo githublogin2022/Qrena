@@ -1,5 +1,6 @@
-import { Platform } from 'react-native';
-import { BASE_URL, DEV_IOS_BASE_URL, DEV_ANDROID_BASE_URL, DEV_WEB_CLIENT_URL, WEB_CLIENT_URL } from '@env';
+//import { Platform } from 'react-native';
+//import { BASE_URL, DEV_IOS_BASE_URL, DEV_ANDROID_BASE_URL, DEV_WEB_CLIENT_URL, WEB_CLIENT_URL } from '@env';
+import { BASE_URL, EXTENSION_URL } from '@env';
 
 // const getUrl = (type: string): string => {
 //   switch (type) {
@@ -24,6 +25,11 @@ import { BASE_URL, DEV_IOS_BASE_URL, DEV_ANDROID_BASE_URL, DEV_WEB_CLIENT_URL, W
 
 // always returns the base url
 const getUrl = () => {
+  return BASE_URL + EXTENSION_URL;
+};
+
+// always returns the base url
+export const getBaseUrl = () => {
   return BASE_URL;
 };
 

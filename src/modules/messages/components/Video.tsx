@@ -9,11 +9,13 @@ import { Button } from 'react-native';
 import VideoPlayer from 'react-native-video-controls';
 import { useTypedNavigation } from '../../app/hooks';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { getBaseUrl } from '../../app/utils/getUrl';
 
 type VideoProps = VideoType;
 
 const VideoTag = (props: VideoProps) => {
-  const baseUrl = 'http://13.232.69.252:5001';
+  //const baseUrl = 'http://13.232.69.252:5001';
+  const baseUrl = getBaseUrl();
   const {
     params: { chatId },
   } = useRoute<RouteProp<RootStackParams, 'Messages'>>();

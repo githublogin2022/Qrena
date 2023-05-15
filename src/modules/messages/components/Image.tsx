@@ -7,11 +7,13 @@ import { RootStackParams } from '../../app/types';
 import { Attachment as ImageType } from '../types';
 import { TouchableRipple } from 'react-native-paper';
 import { useTypedNavigation } from '../../app/hooks';
+import { getBaseUrl } from '../../app/utils/getUrl';
 
 type ImageProps = ImageType;
 
 const Image = (props: ImageProps) => {
-  const baseUrl = 'http://13.232.69.252:5001';
+  //const baseUrl = 'http://13.232.69.252:5001';
+  const baseUrl = getBaseUrl();
   const {
     params: { chatId },
   } = useRoute<RouteProp<RootStackParams, 'Messages'>>();

@@ -19,6 +19,7 @@ import AudioRecorderPlayer, {
 } from 'react-native-audio-recorder-player';
 
 import { stat } from 'react-native-fs';
+import { toast } from '@backpackapp-io/react-native-toast';
 
 type FileType = {
   uri: string;
@@ -48,20 +49,20 @@ const Footer = (props: FooterProps) => {
   const [audioUri, setAudioUri] = useState('');
   const audioRecorderPlayer = useRef<AudioRecorderPlayer>(new AudioRecorderPlayer());
 
-  const refreshMessages = async (body: string) => {
-    // load messages
-    console.log('function: ', body);
-    await dispatch(
-      read({
-        userType: 'user',
-        queries: `limit=20&receiver=${receiver?._id}&senderQrCode=${senderQrCode?._id}&receiverQrCode=${receiverQrCode?._id}`,
-      })
-    )
-      .unwrap()
-      .catch((error: any) => {
-        console.warn(error);
-      });
-  };
+  // const refreshMessages = async (body: string) => {
+  //   // load messages
+  //   console.log('function: ', body);
+  //   await dispatch(
+  //     read({
+  //       userType: 'user',
+  //       queries: `limit=10&receiver=${receiver?._id}&senderQrCode=${senderQrCode?._id}&receiverQrCode=${receiverQrCode?._id}`,
+  //     })
+  //   )
+  //     .unwrap()
+  //     .catch((error: any) => {
+  //       console.warn(error);
+  //     });
+  // };
 
   const onStartRecord = async () => {
     setPlayTime('00:00:00');
@@ -130,6 +131,7 @@ const Footer = (props: FooterProps) => {
   };
 
   const send = async () => {
+    toast('Sending...', { duration: 2000 });
     if (duration.toLowerCase().trim() === '00:00:00') {
       // send text
       sendText();
@@ -185,8 +187,9 @@ const Footer = (props: FooterProps) => {
         })
         .catch((error) => {
           console.warn(error);
+          toast("Couldn't send", { duration: 2500 });
         });
-      await refreshMessages('send()');
+      //await refreshMessages('send()');
     }
   };
 
@@ -216,9 +219,10 @@ const Footer = (props: FooterProps) => {
       .then((res) => {
         socket.emit('send-message', { message: res.data });
         dispatch(receive({ userType: 'user', message: res.data }));
-        refreshMessages('sendCapturedAttachment()');
+        //refreshMessages('sendCapturedAttachment()');
       })
       .catch((error) => {
+        toast("Couldn't send", { duration: 2500 });
         if (typeof error === 'string') {
           console.warn(error);
         } else if (error instanceof Error) {
