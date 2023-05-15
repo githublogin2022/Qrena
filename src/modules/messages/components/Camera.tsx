@@ -16,11 +16,10 @@ const Camera = () => {
   } = useRoute<RouteProp<RootStackParams, 'Camera'>>();
   const navigation = useTypedNavigation();
 
+  // capture an image
   const takePicture = async (camera: RNCamera) => {
     const options = { quality: 0.5, base64: true };
     const data = await camera.takePictureAsync(options);
-    console.log(data);
-    console.log(data.uri);
     const name = data.uri.split('/').pop();
     const stats = await stat(data.uri);
     const size = stats.size;
@@ -36,14 +35,14 @@ const Camera = () => {
     });
   };
 
+  // stop recording the video
   const stopRecording = async (camera: RNCamera) => {
     camera.stopRecording();
   };
 
+  // start recording the video
   const takeVideo = async (camera: RNCamera) => {
     const data = await camera.recordAsync({ quality: '480p' });
-    console.log(data);
-    console.log(data.uri);
     const name = data.uri.split('/').pop();
     const stats = await stat(data.uri);
     const size = stats.size;
@@ -78,7 +77,6 @@ const Camera = () => {
           buttonNegative: 'Cancel',
         }}>
         {({ camera, status, recordAudioPermissionStatus }) => {
-          console.log('recordAudioPermissionStatus: ', recordAudioPermissionStatus);
           if (status !== 'READY') {
             return <Text>Waiting</Text>;
           }

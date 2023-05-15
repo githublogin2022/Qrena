@@ -40,6 +40,7 @@ const SendCapturedAttachment = () => {
 
   const refreshMessages = async (body: string) => {
     // load messages
+    console.log('function: ', body);
     await dispatch(
       read({
         userType: 'user',
@@ -47,31 +48,26 @@ const SendCapturedAttachment = () => {
       })
     )
       .unwrap()
-      .then(() => console.log('Function: ', body))
       .catch((error: any) => {
-        console.log('Error', error);
+        console.warn(error);
       });
   };
 
   const sendAttachment = async () => {
-    console.log('sending data');
-
     const token = await AsyncStorage.getItem('userToken');
-    console.log('token:', token);
+
     setAuthTokenService(token);
 
     var data = new FormData();
     data.append('type', type);
     data.append('body', type);
-    //data.append('chat', '64401482a576b5f95c4190ab');
     data.append('chat', chatId);
-    //data.append('receiver', '643943106fbc522274fb1f21');
     data.append('receiver', receiverId);
-    //data.append('receiverQrCode', '6440143078d713e3279f726c');
-    //data.append('senderQrCode', '643fa5a61e35cd093b08dd45');
     data.append('receiverQrCode', receiverQrCode);
     data.append('senderQrCode', senderQrCode);
     data.append('files', file);
+    console.log('send captured attachment file: ', file);
+    console.log('send captured attachment data: ', data);
 
     let header = {
       headers: {
@@ -79,38 +75,28 @@ const SendCapturedAttachment = () => {
       },
     };
 
-    const response = await axios
+    await axios
       .post('/messages/attachment?userType=user', data, header)
       .then((res) => {
-        console.log(res.data);
-        console.log(res);
-        console.log(res.headers);
         socket.emit('send-message', { message: res.data });
         dispatch(receive({ userType: 'user', message: res.data }));
         refreshMessages('sendCapturedAttachment()');
       })
       .catch((error) => {
-        console.log(error);
-        console.log(error.response);
-        console.log(error.response.headers);
         if (typeof error === 'string') {
-          console.log('string');
-          console.log(error.toUpperCase());
         } else if (error instanceof Error) {
-          console.log('exception');
           let message = error.message;
-          console.log(message);
+          console.warn(message);
         } else {
           console.warn(error);
         }
       });
-    console.log(response);
+
     navigation.goBack();
   };
 
   return (
     <View>
-      {console.log('attachment type:', type)}
       {type === 'image' ? <Image style={styles.image} source={{ uri: url }} /> : null}
       {type === 'video' ? (
         <VideoPlayer
@@ -133,15 +119,15 @@ const SendCapturedAttachment = () => {
 const styles = StyleSheet.create({
   image: {
     width: '100%',
-    height: '96%',
+    height: '95%',
   },
   video: {
     width: '100%',
-    height: '96%',
+    height: '95%',
   },
   button: {
     width: '100%',
-    height: '4%',
+    height: '5%',
   },
 });
 

@@ -22,6 +22,7 @@ import { BASE_URL, DEV_IOS_BASE_URL, DEV_ANDROID_BASE_URL, DEV_WEB_CLIENT_URL, W
 //   return BASE_URL;
 // };
 
+// always returns the base url
 const getUrl = () => {
   return BASE_URL;
 };

@@ -3,8 +3,8 @@ import { Chat } from '../chats/types';
 
 export type Message = {
   _id: string;
-  sender: { _id?: string; firstName?: string; lastName?: string };
-  receiver: { _id?: string; firstName?: string; lastName?: string };
+  sender?: { _id?: string; firstName?: string; lastName?: string };
+  receiver?: { _id?: string; firstName?: string; lastName?: string };
   chat: string;
   receiverQrCode: string;
   senderQrCode: string;
@@ -33,6 +33,7 @@ export type Attachment = {
   side: string;
   createdAt: string;
   updatedAt: string;
+  type?: string;
 };
 
 export type FooterProps = {

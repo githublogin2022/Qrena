@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { AppRegistry } from 'react-native';
 import { Provider as StoreProvider } from 'react-redux';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 import App from './App';
 import './src/modules/app/i18n';

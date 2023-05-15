@@ -52,10 +52,7 @@ const Home = () => {
               width: theme.windowHeight / 4 + 50,
             },
           ]}>
-          <QRCode
-            value={`${getUrl()}/chats/${me._id}-${qrCodes[0].combination}`}
-            size={theme.windowHeight / 4}
-          />
+          <QRCode value={`${getUrl()}/chats/${me._id}-${qrCodes[0].combination}`} size={theme.windowHeight / 4} />
         </View>
       )}
       <Snackbar style={{ backgroundColor: theme.colors.tertiary }} visible={visible} onDismiss={onDismissSnackBar}>

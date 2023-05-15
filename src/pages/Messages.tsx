@@ -66,6 +66,7 @@ const Messages = () => {
     },
   };
 
+  // function to execute when user scrolls to the top of the chat
   const onTopReached = async () => {
     if (messages.length >= 20) {
       setLoading(true);
@@ -81,7 +82,7 @@ const Messages = () => {
         .unwrap()
         .then(() => (offset.current = offset.current + 1))
         .catch((error: any) => {
-          console.log('Error', error);
+          console.warn(error);
         });
 
       setLoading(false);
@@ -93,31 +94,28 @@ const Messages = () => {
 
     const newSocket = socket.current;
 
+    // load all the messages in the chat
     const loadMessages = async () => {
       setLoading(true);
       // load messages
       await dispatch(
         read({
           userType: 'user',
-          queries: `limit=20&limit=10&receiver=${receiver?._id}&senderQrCode=${senderQrCode?._id}&receiverQrCode=${receiverQrCode?._id}`,
+          queries: `limit=10&receiver=${receiver?._id}&senderQrCode=${senderQrCode?._id}&receiverQrCode=${receiverQrCode?._id}`,
         })
       )
         .unwrap()
         .then(() => {
-          console.log('messages read successfully');
           offset.current = 1;
         })
         .catch((error: any) => {
-          console.log('Error', error);
+          console.warn(error);
         });
 
       setLoading(false);
     };
 
-    loadMessages()
-      .then(() => console.log('messages loaded'))
-      .catch((error: any) => console.log(error));
-
+    loadMessages();
     return () => {
       newSocket.disconnect();
     };
@@ -127,37 +125,34 @@ const Messages = () => {
     dispatch(receive({ userType: 'user', message: message }));
   });
 
+  // refresh the messages
   const refreshMessages = async (body: string) => {
     // load messages
+    console.log('function: ', body);
     await dispatch(
       read({
         userType: 'user',
-        queries: `limit=20&receiver=${receiver?._id}&senderQrCode=${senderQrCode?._id}&receiverQrCode=${receiverQrCode?._id}`,
+        queries: `limit=10&receiver=${receiver?._id}&senderQrCode=${senderQrCode?._id}&receiverQrCode=${receiverQrCode?._id}`,
       })
     )
       .unwrap()
-      .then(() => console.log('Function: ', body))
+
       .catch((error: any) => {
-        console.log('Error', error);
+        console.warn(error);
       });
   };
 
+  // send the selected attachments
   const sendAttachment = async (files: DocumentPickerResponse[], type: string) => {
-    console.log('sending data');
-
     const token = await AsyncStorage.getItem('userToken');
-    console.log('token:', token);
+
     setAuthTokenService(token);
 
     var data = new FormData();
     data.append('type', type);
     data.append('body', type);
-    //data.append('chat', '64401482a576b5f95c4190ab');
     data.append('chat', chatId);
-    //data.append('receiver', '643943106fbc522274fb1f21');
     data.append('receiver', receiver?._id);
-    //data.append('receiverQrCode', '6440143078d713e3279f726c');
-    //data.append('senderQrCode', '643fa5a61e35cd093b08dd45');
     data.append('receiverQrCode', receiverQrCode?._id);
     data.append('senderQrCode', senderQrCode?._id);
     files.map((file) => data.append('files', file));
@@ -168,11 +163,10 @@ const Messages = () => {
       },
     };
 
-    await axios
+    axios
       .post('/messages/attachment?userType=user', data, header)
       .then((res) => {
-        console.log(res.data);
-        console.log(res.headers);
+        console.log(res);
         res.data.forEach((element: MessageType) => {
           socket.current.emit('send-message', { message: element });
           dispatch(receive({ userType: 'user', message: element }));
@@ -180,34 +174,18 @@ const Messages = () => {
         refreshMessages('sendAttachment()');
       })
       .catch((error) => {
-        console.log(error);
-        console.log(error.response);
-        console.log(error.response.headers);
-        if (typeof error === 'string') {
-          console.log('string');
-          console.log(error.toUpperCase());
-        } else if (error instanceof Error) {
-          console.log('exception');
-          let message = error.message;
-          console.log(message);
-        } else {
-          console.warn(error);
-        }
+        console.warn(error);
       });
-    //await refreshMessages('sendAttachment()');
   };
 
+  // forward the selected message to the selected chats
   const forward = async () => {
-    console.log('forwardSelectedChats: ', forwardSelectedChats.current);
     if (forwardSelectedChats.current.length > 0) {
       setAuthTokenService(await AsyncStorage.getItem('userToken'));
       let chatIds: string[] = [];
       forwardSelectedChats.current.map((ch) => {
         chatIds.push(ch._id);
       });
-      console.log('chatIds', chatIds);
-      console.log('messageToPerform id', messageToPerform.current?._id);
-      console.log('senderQeCode', senderQrCode?._id);
       let data = JSON.stringify({
         chatIds: chatIds,
         messageId: messageToPerform.current?._id,
@@ -220,58 +198,46 @@ const Messages = () => {
         },
       };
 
-      axios
-        .post('/messages/forward?userType=user', data, header)
-        .then((res) => {
-          console.log(res.data);
-          refreshMessages('forward()');
-        })
-        .catch((error) => console.log('Error: ', error));
+      axios.post('/messages/forward?userType=user', data, header).then(() => {
+        refreshMessages('forward()');
+      });
     } else {
-      console.log('no chats selected');
     }
   };
 
+  // delete the selected message only for me
   const deleteForMe = async () => {
     setAuthTokenService(await AsyncStorage.getItem('userToken'));
 
-    const res = await axios.delete(`/messages/deleteForMe/${messageToPerform.current?._id}?userType=user`);
-
-    //console.log('message read: ', res.data);
-    console.log(res.data);
+    await axios.delete(`/messages/deleteForMe/${messageToPerform.current?._id}?userType=user`);
     refreshMessages('deleteForMe()');
   };
 
+  // delete the selected message for everyone
   const deleteForEveryone = async () => {
     setAuthTokenService(await AsyncStorage.getItem('userToken'));
 
-    const res = await axios.delete(`/messages/deleteForAll/${messageToPerform.current?._id}?userType=user`);
-
-    //console.log('message read: ', res.data);
-    console.log(res.data);
+    await axios.delete(`/messages/deleteForAll/${messageToPerform.current?._id}?userType=user`);
     refreshMessages('deleteForEveryone()');
   };
 
+  // select images from the phone to send
   const pickImages = async () => {
     try {
       const response = await DocumentPicker?.pick({
         allowMultiSelection: true,
         presentationStyle: 'fullScreen',
-        type: [DocumentPicker.types.video, DocumentPicker.types.images],
+        type: [DocumentPicker.types.images],
       });
       // setFileResponse(response);
-      response.map((file) => console.log(file));
+
       sendAttachment(response, 'image');
     } catch (error) {
       if (typeof error === 'string') {
-        console.log('string');
-        console.log(error.toUpperCase());
       } else if (error instanceof Error) {
-        console.log('exception');
         let message = error.message;
-        console.log(message);
+
         if (message.toLowerCase() === 'User canceled document picker'.toLowerCase()) {
-          console.log('operation cancelled');
         }
       } else {
         console.warn(error);
@@ -279,6 +245,7 @@ const Messages = () => {
     }
   };
 
+  // select videos from the phone to send
   const pickVideos = async () => {
     try {
       const response = await DocumentPicker?.pick({
@@ -286,18 +253,14 @@ const Messages = () => {
         presentationStyle: 'fullScreen',
         type: [DocumentPicker.types.video],
       });
-      response.map((file) => console.log(file));
+
       sendAttachment(response, 'video');
     } catch (error) {
       if (typeof error === 'string') {
-        console.log('string');
-        console.log(error.toUpperCase());
       } else if (error instanceof Error) {
-        console.log('exception');
         let message = error.message;
-        console.log(message);
+
         if (message.toLowerCase() === 'User canceled document picker'.toLowerCase()) {
-          console.log('operation cancelled');
         }
       } else {
         console.warn(error);
@@ -305,6 +268,7 @@ const Messages = () => {
     }
   };
 
+  // select any file as document from the phone to send
   const pickDocuments = async () => {
     try {
       const response = await DocumentPicker?.pick({
@@ -312,17 +276,13 @@ const Messages = () => {
         presentationStyle: 'fullScreen',
         type: [DocumentPicker.types.allFiles],
       });
-      console.log(Array.from(response));
-      console.log(response[0]);
       sendAttachment(response, 'document');
     } catch (error) {
       if (typeof error === 'string') {
-        console.log(error.toUpperCase());
       } else if (error instanceof Error) {
         let message = error.message;
-        console.log(message);
+
         if (message.toLowerCase() === 'User canceled document picker'.toLowerCase()) {
-          console.log('operation cancelled');
         }
       } else {
         console.warn(error);
@@ -330,6 +290,29 @@ const Messages = () => {
     }
   };
 
+  // select any file as document from the phone to send
+  const pickAudio = async () => {
+    try {
+      const response = await DocumentPicker?.pick({
+        allowMultiSelection: true,
+        presentationStyle: 'fullScreen',
+        type: [DocumentPicker.types.audio],
+      });
+      sendAttachment(response, 'audio');
+    } catch (error) {
+      if (typeof error === 'string') {
+      } else if (error instanceof Error) {
+        let message = error.message;
+
+        if (message.toLowerCase() === 'User canceled document picker'.toLowerCase()) {
+        }
+      } else {
+        console.warn(error);
+      }
+    }
+  };
+
+  // popup menu for forwarding a message
   const ForwardChats = () => (
     <LinearGradient
       style={styles.messageOptions}
@@ -383,6 +366,7 @@ const Messages = () => {
     </LinearGradient>
   );
 
+  // popup menu for attachments
   const Options = () => (
     <LinearGradient
       style={styles.options}
@@ -395,7 +379,7 @@ const Messages = () => {
           style={styles.icon}
           onPress={() => {
             setShowEle(false);
-            console.log('gallery selected');
+
             pickImages();
           }}>
           <Icon color='#fff' size={35} name='image' />
@@ -404,7 +388,7 @@ const Messages = () => {
           style={styles.icon}
           onPress={() => {
             setShowEle(false);
-            console.log('gallery selected');
+
             pickVideos();
           }}>
           <Icon color='#fff' size={35} name='ondemand-video' />
@@ -413,7 +397,7 @@ const Messages = () => {
           style={styles.icon}
           onPress={() => {
             setShowEle(false);
-            console.log('capture selected');
+
             navigation.push('Camera', {
               receiverId: receiver?._id,
               receiverQrCode: receiverQrCode?._id,
@@ -427,7 +411,16 @@ const Messages = () => {
           style={styles.icon}
           onPress={() => {
             setShowEle(false);
-            console.log('document selected');
+
+            pickAudio();
+          }}>
+          <Icon color='#fff' size={35} name='music-note' />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => {
+            setShowEle(false);
+
             pickDocuments();
           }}>
           <Icon color='#fff' size={35} name='text-snippet' />
@@ -436,6 +429,7 @@ const Messages = () => {
     </LinearGradient>
   );
 
+  // select a chat to forward the selected message
   const selectForwardChat = (chat: Chat, index: number) => {
     const newArr = [...forwardChats];
     const newEle: ForwardChatList = newArr[index];
@@ -451,9 +445,9 @@ const Messages = () => {
         forwardSelectedChats.current = forwardSelectedChats.current.filter((ch) => ch._id !== chat._id);
       }
     }
-    console.log('forwardSelectedChats: ', forwardSelectedChats.current);
   };
 
+  // popup menu for selecting a message
   const MessageOptions = () => (
     <LinearGradient
       style={styles.messageOptions}
@@ -466,22 +460,21 @@ const Messages = () => {
           style={styles.messageIcon}
           onPress={async () => {
             setShowMessageOptions(false);
-            console.log('forward selected');
+
             setForwardChats([]);
-            console.log('emptied forwardChats: ', forwardChats);
+
             chats.map((chat) => {
               const forwardChat: ForwardChatList = {
                 chat,
                 checked: false,
               };
               const findForwardChat = forwardChats.find((ch) => ch.chat._id === chat._id);
-              console.log('findForwardChat: ', findForwardChat);
+
               if (findForwardChat === undefined) {
                 setForwardChats([...forwardChats, forwardChat]);
-                console.log('forwardChats: ', forwardChats);
               }
             });
-            console.log('after assigning forwardChats: ', forwardChats);
+
             setShowForwardOptions(true);
             //await forward();
           }}>
@@ -491,7 +484,7 @@ const Messages = () => {
           style={styles.messageIcon}
           onPress={() => {
             setShowMessageOptions(false);
-            console.log('delete selected');
+
             setShowDeleteOptions(true);
           }}>
           <Icon color='#fff' size={35} name='delete' />
@@ -500,6 +493,7 @@ const Messages = () => {
     </LinearGradient>
   );
 
+  // popup menu for deleting a message
   const DeleteOptions = () => (
     <LinearGradient
       style={styles.messageOptions}
@@ -514,7 +508,7 @@ const Messages = () => {
             title='Delete for me'
             onPress={async () => {
               setShowDeleteOptions(false);
-              console.log('Delete for me');
+
               await deleteForMe();
             }}
           />
@@ -525,7 +519,7 @@ const Messages = () => {
             title='Delete for everyone'
             onPress={async () => {
               setShowDeleteOptions(false);
-              console.log('Delete for everyone');
+
               await deleteForEveryone();
             }}
           />
@@ -536,7 +530,6 @@ const Messages = () => {
             title='Cancel'
             onPress={() => {
               setShowDeleteOptions(false);
-              console.log('Cancel');
             }}
           />
         </View>
@@ -560,7 +553,6 @@ const Messages = () => {
                     //setMessageToPerform(message);
                     setShowMessageOptions(true);
                     //setMessageToPerform(message);
-                    console.log('more selected');
                   }}>
                   <Icon color='#fff' size={35} name='more-horiz' />
                 </TouchableOpacity>

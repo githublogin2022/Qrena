@@ -4,7 +4,8 @@ export type Chat = {
   _id: string;
   sender?: string;
   receiver: { _id?: string; displayName: string; profilePictureUrl?: string };
-  qrCode: { _id?: string; combination: string };
+  receiverQrCode: { _id?: string; combination: string; name: string };
+  senderQrCode: { _id?: string; combination: string; name: string };
   status: string;
   lastMessage?: { body: string; date: string };
   notifications?: number;

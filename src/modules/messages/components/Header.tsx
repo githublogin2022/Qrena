@@ -24,6 +24,7 @@ const Header = (props: NativeStackHeaderProps) => {
   const {
     params: { receiver, chatId },
   } = useRoute<RouteProp<RootStackParams, 'Messages'>>();
+  const displayName = receiver?.displayName.split(' ') ? receiver?.displayName.split(' ') : '';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMuteDialogVisible, setIsMuteDialogVisible] = useState(false);
 
@@ -82,7 +83,11 @@ const Header = (props: NativeStackHeaderProps) => {
           ) : (
             <Avatar.Text
               size={50}
-              label={receiver.displayName}
+              label={
+                displayName.length > 1
+                  ? `${displayName[0].charAt(0).toUpperCase()}${displayName[1].charAt(0).toUpperCase()}`
+                  : `${displayName[0].charAt(0).toUpperCase()}`
+              }
               color={theme.colors.white}
               labelStyle={styles.text}
               style={{ backgroundColor: theme.colors.tertiary }}

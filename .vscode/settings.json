@@ -18,5 +18,6 @@
     "reduxjs",
     "Searchbar",
     "typescale"
-  ]
+  ],
+  "java.configuration.updateBuildConfiguration": "interactive"
 }

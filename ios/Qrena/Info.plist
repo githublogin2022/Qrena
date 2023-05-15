@@ -24,6 +24,8 @@
 	<string>1</string>
 	<key>NSCameraUsageDescription</key>
   <string>CameraPermission</string>
+	<key>NSMicrophoneUsageDescription</key>
+  <string>MicrophonePermission</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

@@ -9,6 +9,7 @@ import Video from './Video';
 import { Text as TextType } from '../types';
 import { Attachment as AttachmentType } from '../types';
 import Document from './Document';
+import AudioView from './Audio';
 
 type MessageProps = MessageType;
 
@@ -17,7 +18,7 @@ const Message = (props: MessageProps) => {
   const {
     auth: { me },
   } = useTypedSelector((state) => state);
-  var side: 'left' | 'right' = receiver._id === me?._id ? 'left' : 'right';
+  var side: 'left' | 'right' = receiver?._id === me?._id ? 'left' : 'right';
 
   const renderElement = () => {
     switch (type) {
@@ -42,6 +43,26 @@ const Message = (props: MessageProps) => {
           updatedAt: updatedAt,
         };
         return <Video {...video} />;
+      case 'audio':
+        let audio: AttachmentType = {
+          _id: _id,
+          fileName: file,
+          side: side,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+          type: 'audio',
+        };
+        return <AudioView {...audio} />;
+      case 'recording':
+        let recording: AttachmentType = {
+          _id: _id,
+          fileName: file,
+          side: side,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+          type: 'recording',
+        };
+        return <AudioView {...recording} />;
       case 'document':
         const document: AttachmentType = {
           _id: _id,
