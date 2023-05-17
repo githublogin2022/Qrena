@@ -19,7 +19,7 @@ import AudioRecorderPlayer, {
 } from 'react-native-audio-recorder-player';
 
 import { stat } from 'react-native-fs';
-import { toast } from '@backpackapp-io/react-native-toast';
+//import { toast } from '@backpackapp-io/react-native-toast';
 
 type FileType = {
   uri: string;
@@ -131,7 +131,7 @@ const Footer = (props: FooterProps) => {
   };
 
   const send = async () => {
-    toast('Sending...', { duration: 2000 });
+    //toast('Sending...', { duration: 2000 });
     if (duration.toLowerCase().trim() === '00:00:00') {
       // send text
       sendText();
@@ -187,7 +187,7 @@ const Footer = (props: FooterProps) => {
         })
         .catch((error) => {
           console.warn(error);
-          toast("Couldn't send", { duration: 2500 });
+          //toast("Couldn't send", { duration: 2500 });
         });
       //await refreshMessages('send()');
     }
@@ -222,7 +222,7 @@ const Footer = (props: FooterProps) => {
         //refreshMessages('sendCapturedAttachment()');
       })
       .catch((error) => {
-        toast("Couldn't send", { duration: 2500 });
+        //toast("Couldn't send", { duration: 2500 });
         if (typeof error === 'string') {
           console.warn(error);
         } else if (error instanceof Error) {
