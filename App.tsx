@@ -37,6 +37,7 @@ import { TabNavigator } from './src/modules/app/components';
 import { create } from './src/modules/notifications/actions';
 import Camera from './src/modules/messages/components/Camera';
 import SendCapturedAttachment from './src/modules/messages/components/SendCapturedAttachment';
+import SelectContact from './src/pages/SelectContact';
 
 const App: () => JSX.Element = () => {
   const dispatch = useTypedDispatch();
@@ -117,6 +118,7 @@ const App: () => JSX.Element = () => {
                 component={SendCapturedAttachment}
                 options={{ headerShown: false }}
               />
+              <Stack.Screen name='SelectContact' component={SelectContact} options={{ headerShown: false }} />
               <Stack.Screen name='Notifications' component={Notifications} />
               <Stack.Screen name='Scan' component={Scan} />
               <Stack.Screen name='ChatSettings' component={ChatSettings} />

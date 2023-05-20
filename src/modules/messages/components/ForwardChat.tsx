@@ -12,7 +12,7 @@ const ForwardChat = (props: ForwardChatProps) => {
   return (
     <TouchableOpacity onPress={() => onPress()}>
       <HStack>
-        <CheckBox onCheckColor='white' onFillColor='white' onTintColor='white' tintColor='#fff' value={checked} />
+        <CheckBox onCheckColor='#000' onFillColor='#000' onTintColor='#000' tintColor='#000' value={checked} />
         <Text style={styles.text}>{chat.receiver.displayName}</Text>
       </HStack>
     </TouchableOpacity>
@@ -21,7 +21,7 @@ const ForwardChat = (props: ForwardChatProps) => {
 
 const styles = StyleSheet.create({
   text: {
-    color: 'white',
+    color: '#000',
     paddingVertical: 6,
   },
 });

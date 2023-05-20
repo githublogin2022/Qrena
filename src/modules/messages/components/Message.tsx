@@ -10,11 +10,12 @@ import { Text as TextType } from '../types';
 import { Attachment as AttachmentType } from '../types';
 import Document from './Document';
 import AudioView from './Audio';
+import Contact from './Contact';
 
 type MessageProps = MessageType;
 
 const Message = (props: MessageProps) => {
-  const { _id, receiver, body, file, type, createdAt, updatedAt } = props;
+  const { _id, receiver, body, file, type, createdAt, updatedAt, contact } = props;
   const {
     auth: { me },
   } = useTypedSelector((state) => state);
@@ -25,6 +26,15 @@ const Message = (props: MessageProps) => {
       case 'Text':
         const text: TextType = { _id: _id, text: body, side: side, createdAt: createdAt, updatedAt: updatedAt };
         return <Text {...text} />;
+      case 'contact':
+        const contactAttachment: AttachmentType = {
+          _id: _id,
+          contact: contact,
+          side: side,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+        };
+        return <Contact {...contactAttachment} />;
       case 'image':
         const image: AttachmentType = {
           _id: _id,

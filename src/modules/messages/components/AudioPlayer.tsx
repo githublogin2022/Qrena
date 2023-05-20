@@ -1,10 +1,11 @@
 import Slider from '@react-native-community/slider';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, EmitterSubscription } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 //import Sound from 'react-native-sound';
-import SoundPlayer from 'react-native-sound-player';
+//import SoundPlayer from 'react-native-sound-player';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { HStack } from 'react-native-flex-layout';
+import Sound from 'react-native-sound';
 
 type Props = {
   url: string;
@@ -15,65 +16,62 @@ const AudioPlayer = (props: Props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const interval = useRef<NodeJS.Timer | null>(null);
-  var _onFinishedPlayingSubscription: null | EmitterSubscription = null;
-  // const sound = useRef<Sound>(
-  //   new Sound(url, undefined, (error) => {
-  //     if (error) {
-  //       console.log('failed to load the sound', error);
-  //     } else {
-  //       setDuration(sound.current.getDuration());
-  //     }
-  //   })
-  // );
+  //var _onFinishedPlayingSubscription: null | EmitterSubscription = null;
+  const sound = useRef<Sound>(
+    new Sound(url, undefined, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+      } else {
+        setDuration(sound.current.getDuration());
+      }
+    })
+  );
 
   useEffect(() => {
-    try {
-      console.log(url);
-      SoundPlayer.loadUrl(url);
-      loadDuration();
-      interval.current = setInterval(async () => {
-        const info = await SoundPlayer.getInfo();
-        setCurrentTime(info.currentTime);
-      }, 500);
-    } catch (e) {
-      console.log(e);
-    }
+    console.log(url);
+    //SoundPlayer.loadUrl(url);
+    loadDuration();
+    const interval = setInterval(async () => {
+      sound.current.getCurrentTime((time) => {
+        setCurrentTime(time);
+      });
+    }, 500);
+
+    return () => clearInterval(interval);
   }, [url]);
 
   const loadDuration = async () => {
-    const info = await SoundPlayer.getInfo();
-    setDuration(info.duration);
+    setDuration(sound.current.getDuration());
   };
 
   const handlePlay = () => {
     setIsPlaying(true);
-    console.log(url);
-    if (_onFinishedPlayingSubscription === null) {
-      SoundPlayer.play();
-      _onFinishedPlayingSubscription = SoundPlayer.addEventListener('FinishedPlaying', ({ success }) => {
-        console.log('finished playing', success);
-        _onFinishedPlayingSubscription?.remove();
-        _onFinishedPlayingSubscription = null;
+    // console.log(url);
+    // if (_onFinishedPlayingSubscription === null) {
+    //   SoundPlayer.play();
+    //   _onFinishedPlayingSubscription = SoundPlayer.addEventListener('FinishedPlaying', ({ success }) => {
+    //     console.log('finished playing', success);
+    //     _onFinishedPlayingSubscription?.remove();
+    //     _onFinishedPlayingSubscription = null;
+    //     setIsPlaying(false);
+    //   });
+    // } else {
+    //   SoundPlayer.resume();
+    // }
+    sound.current.play((success) => {
+      if (success) {
+        console.log('successfully finished playing');
         setIsPlaying(false);
-      });
-    } else {
-      SoundPlayer.resume();
-    }
-    // sound.current.play((success) => {
-    //   if (success) {
-    //     console.log('successfully finished playing');
-    //     setIsPlaying(false);
-    //   } else {
-    //     console.log('playback failed due to audio decoding errors');
-    //     setIsPlaying(false);
-    //   }
-    // });
+      } else {
+        console.log('playback failed due to audio decoding errors');
+        setIsPlaying(false);
+      }
+    });
   };
 
   const handlePause = () => {
-    SoundPlayer.pause();
-    //sound.current.pause();
+    //SoundPlayer.pause();
+    sound.current.pause();
     setIsPlaying(false);
   };
 
@@ -84,8 +82,8 @@ const AudioPlayer = (props: Props) => {
 
   const handleSliderChange = (value: number) => {
     setCurrentTime(value);
-    SoundPlayer.seek(value);
-    //sound.current.setCurrentTime(value);
+    //SoundPlayer.seek(value);
+    sound.current.setCurrentTime(value);
   };
 
   const formatTime = (seconds: number) => {

@@ -11,7 +11,7 @@ import { setAuthTokenService } from '../../app/services';
 import axios from 'axios';
 
 import { useTypedNavigation, useTypedDispatch } from '../../app/hooks';
-import { read, receive } from '../../messages/actions';
+import { receive } from '../../messages/actions';
 import io from 'socket.io-client';
 
 type FileType = {
@@ -38,20 +38,20 @@ const SendCapturedAttachment = () => {
     type: typeToSend,
   };
 
-  const refreshMessages = async (body: string) => {
-    // load messages
-    console.log('function: ', body);
-    await dispatch(
-      read({
-        userType: 'user',
-        queries: `limit=20&receiver=${receiverId}&senderQrCode=${senderQrCode}&receiverQrCode=${receiverQrCode}`,
-      })
-    )
-      .unwrap()
-      .catch((error: any) => {
-        console.warn(error);
-      });
-  };
+  // const refreshMessages = async (body: string) => {
+  //   // load messages
+  //   console.log('function: ', body);
+  //   await dispatch(
+  //     read({
+  //       userType: 'user',
+  //       queries: `limit=10&receiver=${receiverId}&senderQrCode=${senderQrCode}&receiverQrCode=${receiverQrCode}`,
+  //     })
+  //   )
+  //     .unwrap()
+  //     .catch((error: any) => {
+  //       console.warn(error);
+  //     });
+  // };
 
   const sendAttachment = async () => {
     const token = await AsyncStorage.getItem('userToken');
@@ -80,7 +80,7 @@ const SendCapturedAttachment = () => {
       .then((res) => {
         socket.emit('send-message', { message: res.data });
         dispatch(receive({ userType: 'user', message: res.data }));
-        refreshMessages('sendCapturedAttachment()');
+        //refreshMessages('sendCapturedAttachment()');
       })
       .catch((error) => {
         if (typeof error === 'string') {
@@ -95,10 +95,12 @@ const SendCapturedAttachment = () => {
     navigation.goBack();
   };
 
-  return (
-    <View>
-      {type === 'image' ? <Image style={styles.image} source={{ uri: url }} /> : null}
-      {type === 'video' ? (
+  const multiMedia = () => {
+    console.log('url: ', url);
+    if (type === 'image') {
+      return <Image style={styles.image} source={{ uri: url }} />;
+    } else if (type === 'video') {
+      return (
         <VideoPlayer
           disableFullscreen
           disableBack
@@ -108,9 +110,20 @@ const SendCapturedAttachment = () => {
           paused={false}
           controls={false}
         />
-      ) : null}
-      <View style={styles.button}>
-        <Button color='#79D44E' onPress={() => sendAttachment()} title='Send' />
+      );
+    }
+  };
+
+  return (
+    <View>
+      <View>
+        {console.log('type: ', type)}
+        {console.log('image: ', type === 'image')}
+        {console.log('video: ', type === 'video')}
+        {multiMedia()}
+        <View style={styles.button}>
+          <Button color='#79D44E' onPress={() => sendAttachment()} title='Send' />
+        </View>
       </View>
     </View>
   );

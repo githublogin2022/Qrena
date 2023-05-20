@@ -76,7 +76,7 @@ const Camera = () => {
           buttonPositive: 'Ok',
           buttonNegative: 'Cancel',
         }}>
-        {({ camera, status, recordAudioPermissionStatus }) => {
+        {({ camera, status }) => {
           if (status !== 'READY') {
             return <Text>Waiting</Text>;
           }

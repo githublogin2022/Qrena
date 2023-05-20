@@ -175,7 +175,7 @@ const Messages = () => {
           socket.current.emit('send-message', { message: element });
           dispatch(receive({ userType: 'user', message: element }));
         });
-        refreshMessages('sendAttachment()');
+        //refreshMessages('sendAttachment()');
       })
       .catch((error) => {
         //toast("Couldn't send", { duration: 2500 });
@@ -326,11 +326,21 @@ const Messages = () => {
       angle={170}
       locations={[0, 1]}>
       <VStack style={styles.stack}>
-        <View style={styles.deleteOptionsButton}>
+        <View style={[styles.deleteOptionsButton, styles.forwardFlatList]}>
           <FlatList
             style={styles.flatlist}
             data={forwardChats}
             renderItem={({ item: chat, index }) => {
+              if (forwardChats.length === 1) {
+                return (
+                  <View>
+                    <Text style={{ color: '#fff' }}>No chats</Text>
+                  </View>
+                );
+              }
+              if (chat.chat._id === chatId) {
+                return null;
+              }
               const forwardChatProps: ForwardChatProps = {
                 chat: chat.chat,
                 checked: chat.checked,
@@ -339,13 +349,14 @@ const Messages = () => {
               return <ForwardChat {...forwardChatProps} />;
             }}
             keyExtractor={(item) => item.chat._id}
-            ListEmptyComponent={
-              chats.length === 0 ? (
+            ListEmptyComponent={() => {
+              return forwardChats.length === 1 ? (
                 <View>
-                  <Text style={{ color: theme.colors.contrastText }}>No messages</Text>
+                  {console.log('length: ', forwardChats.length)}
+                  <Text style={{ color: '#fff' }}>No chats</Text>
                 </View>
-              ) : undefined
-            }
+              ) : null;
+            }}
           />
         </View>
         <View style={styles.deleteOptionsButton}>
@@ -411,6 +422,21 @@ const Messages = () => {
             });
           }}>
           <Icon color='#fff' size={35} name='camera' />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => {
+            setShowEle(false);
+
+            navigation.push('SelectContact', {
+              receiver,
+              sender,
+              chatId,
+              receiverQrCode,
+              senderQrCode,
+            });
+          }}>
+          <Icon color='#fff' size={35} name='person' />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.icon}
@@ -668,6 +694,9 @@ const styles = StyleSheet.create({
   deleteOptionsButton: {
     marginVertical: 12,
     marginHorizontal: 48,
+  },
+  forwardFlatList: {
+    backgroundColor: 'white',
   },
   flatlist: {
     flex: 1,

@@ -42,6 +42,13 @@ export type RootStackParams = {
     receiverQrCode?: string;
     chatId?: string;
   };
+  SelectContact: {
+    receiver?: { _id?: string; profilePictureUrl?: string; displayName: string };
+    sender?: string;
+    chatId?: string;
+    receiverQrCode?: { _id?: string; combination: string; name: string };
+    senderQrCode?: { _id?: string; combination: string; name: string };
+  };
   Chats: undefined;
   Scan: undefined;
   Settings: undefined;

@@ -5,9 +5,9 @@ import Attachment from './Attachment';
 import { setAuthTokenService } from '../../app/services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { read, receive } from '../actions';
+import { receive } from '../actions';
 import { useTypedDispatch } from '../../app/hooks';
-import { FooterProps } from '../types';
+import { FooterProps, Message } from '../types';
 import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AudioRecorderPlayer, {
@@ -218,7 +218,7 @@ const Footer = (props: FooterProps) => {
       .post('/messages/attachment?userType=user', data, header)
       .then((res) => {
         socket.emit('send-message', { message: res.data });
-        dispatch(receive({ userType: 'user', message: res.data }));
+        res.data.forEach((data1: Message) => dispatch(receive({ userType: 'user', message: data1 })));
         //refreshMessages('sendCapturedAttachment()');
       })
       .catch((error) => {

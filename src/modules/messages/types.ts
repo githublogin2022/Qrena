@@ -11,12 +11,16 @@ export type Message = {
   body: string;
   status: string;
   isCaptured?: boolean;
+  isDeleted?: boolean;
+  isForwarded?: boolean;
   isLive?: boolean;
   file?: string;
   type: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
+  contact?: Contact;
+  deletedBy?: [];
 };
 
 export type Text = {
@@ -30,10 +34,24 @@ export type Text = {
 export type Attachment = {
   _id: string;
   fileName?: string;
+  contact?: Contact;
   side: string;
   createdAt: string;
   updatedAt: string;
   type?: string;
+};
+
+export type Contact = {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+};
+
+export type ContactProps = {
+  contact: Contact;
+  selectContact: Function;
+  checked?: boolean;
 };
 
 export type FooterProps = {
