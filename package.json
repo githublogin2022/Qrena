@@ -11,7 +11,6 @@
     "start:lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@backpackapp-io/react-native-toast": "^0.8.0",
     "@notifee/react-native": "^5.7.0",
     "@react-native-async-storage/async-storage": "^1.17.7",
     "@react-native-community/checkbox": "^0.5.14",
@@ -45,7 +44,7 @@
     "react-native-phone-number-input": "^2.1.0",
     "react-native-popup-menu": "^0.16.1",
     "react-native-qrcode-svg": "^6.1.2",
-    "react-native-reanimated": "^3.1.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-restart": "^0.0.24",
     "react-native-safe-area-context": "^4.5.3",
     "react-native-screens": "^3.15.0",
