@@ -1,8 +1,6 @@
 import React from 'react';
 
 import { StyleSheet, View, Image as ImageTag } from 'react-native';
-import { useRoute, RouteProp } from '@react-navigation/native';
-import { RootStackParams } from '../../app/types';
 
 import { Attachment as ImageType } from '../types';
 import { TouchableRipple } from 'react-native-paper';
@@ -14,11 +12,8 @@ type ImageProps = ImageType;
 const Image = (props: ImageProps) => {
   //const baseUrl = 'http://13.232.69.252:5001';
   const baseUrl = getBaseUrl();
-  const {
-    params: { chatId },
-  } = useRoute<RouteProp<RootStackParams, 'Messages'>>();
-  const { side, fileName } = props;
-  const url = `${baseUrl}/${chatId}/image/${fileName}`;
+  const { side, fileName, chat } = props;
+  const url = `${baseUrl}/${chat}/image/${fileName}`;
   const navigation = useTypedNavigation();
 
   return (

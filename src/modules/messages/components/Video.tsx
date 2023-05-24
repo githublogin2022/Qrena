@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useRoute, RouteProp } from '@react-navigation/native';
-import { RootStackParams } from '../../app/types';
 
 import { Attachment as VideoType } from '../types';
 import { Button } from 'react-native';
@@ -16,11 +14,8 @@ type VideoProps = VideoType;
 const VideoTag = (props: VideoProps) => {
   //const baseUrl = 'http://13.232.69.252:5001';
   const baseUrl = getBaseUrl();
-  const {
-    params: { chatId },
-  } = useRoute<RouteProp<RootStackParams, 'Messages'>>();
-  const { side, fileName } = props;
-  const url = `${baseUrl}/${chatId}/video/${fileName}`;
+  const { side, fileName, chat } = props;
+  const url = `${baseUrl}/${chat}/video/${fileName}`;
   const [isPlaying, setIsPlaying] = useState(false);
   const navigation = useTypedNavigation();
 

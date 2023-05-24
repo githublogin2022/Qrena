@@ -1,7 +1,5 @@
 import React from 'react';
 import { Attachment as AudioType } from '../types';
-import { useRoute, RouteProp } from '@react-navigation/native';
-import { RootStackParams } from '../../app/types';
 import { StyleSheet, View } from 'react-native';
 import { HStack } from 'react-native-flex-layout';
 import AudioPlayer from './AudioPlayer';
@@ -12,11 +10,8 @@ type AudioProps = AudioType;
 const AudioView = (props: AudioProps) => {
   //const baseUrl = 'http://13.232.69.252:5001';
   const baseUrl = getBaseUrl();
-  const {
-    params: { chatId },
-  } = useRoute<RouteProp<RootStackParams, 'Messages'>>();
-  const { side, fileName, type } = props;
-  const url = `${baseUrl}/${chatId}/${type}/${fileName}`;
+  const { side, fileName, type, chat } = props;
+  const url = `${baseUrl}/${chat}/${type}/${fileName}`;
   const audioProps = { url };
 
   return (

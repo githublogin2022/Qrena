@@ -1,6 +1,4 @@
 import React from 'react';
-import { useRoute, RouteProp } from '@react-navigation/native';
-import { RootStackParams } from '../../app/types';
 
 import { StyleSheet, Text as TextTag, TouchableOpacity, View } from 'react-native';
 import { Attachment as DocumentType } from '../types';
@@ -14,11 +12,8 @@ type DocumentProps = DocumentType;
 
 const Document = (props: DocumentProps) => {
   const baseUrl = getBaseUrl();
-  const {
-    params: { chatId },
-  } = useRoute<RouteProp<RootStackParams, 'Messages'>>();
-  const { side, fileName } = props;
-  const url = `${baseUrl}/${chatId}/document/${fileName}`;
+  const { side, fileName, chat } = props;
+  const url = `${baseUrl}/${chat}/document/${fileName}`;
   const extension = fileName?.trim().split('.').pop()?.toLocaleLowerCase();
   const localFile = `${RNFS.DocumentDirectoryPath}/temporaryfile.${extension}`;
 

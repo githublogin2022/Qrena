@@ -15,7 +15,7 @@ import Contact from './Contact';
 type MessageProps = MessageType;
 
 const Message = (props: MessageProps) => {
-  const { _id, receiver, body, file, type, createdAt, updatedAt, contact } = props;
+  const { _id, receiver, body, chat, file, type, createdAt, updatedAt, contact } = props;
   const {
     auth: { me },
   } = useTypedSelector((state) => state);
@@ -33,6 +33,7 @@ const Message = (props: MessageProps) => {
           side: side,
           createdAt: createdAt,
           updatedAt: updatedAt,
+          chat,
         };
         return <Contact {...contactAttachment} />;
       case 'image':
@@ -42,6 +43,7 @@ const Message = (props: MessageProps) => {
           side: side,
           createdAt: createdAt,
           updatedAt: updatedAt,
+          chat,
         };
         return <Image {...image} />;
       case 'video':
@@ -51,6 +53,7 @@ const Message = (props: MessageProps) => {
           side: side,
           createdAt: createdAt,
           updatedAt: updatedAt,
+          chat,
         };
         return <Video {...video} />;
       case 'audio':
@@ -61,6 +64,7 @@ const Message = (props: MessageProps) => {
           createdAt: createdAt,
           updatedAt: updatedAt,
           type: 'audio',
+          chat,
         };
         return <AudioView {...audio} />;
       case 'recording':
@@ -71,6 +75,7 @@ const Message = (props: MessageProps) => {
           createdAt: createdAt,
           updatedAt: updatedAt,
           type: 'recording',
+          chat,
         };
         return <AudioView {...recording} />;
       case 'document':
@@ -80,6 +85,7 @@ const Message = (props: MessageProps) => {
           side: side,
           createdAt: createdAt,
           updatedAt: updatedAt,
+          chat,
         };
         return <Document {...document} />;
       default:

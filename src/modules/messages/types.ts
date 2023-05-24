@@ -39,6 +39,7 @@ export type Attachment = {
   createdAt: string;
   updatedAt: string;
   type?: string;
+  chat: string;
 };
 
 export type Contact = {
