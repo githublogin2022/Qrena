@@ -25,9 +25,6 @@ import ForwardChat from '../modules/messages/components/ForwardChat';
 import { FooterProps, ForwardChatProps, Message as MessageType } from '../modules/messages/types';
 import { Chat } from '../modules/chats/types';
 
-// import { Toasts } from '@backpackapp-io/react-native-toast';
-// import { toast } from '@backpackapp-io/react-native-toast';
-
 type ForwardChatList = {
   chat: Chat;
   checked: boolean;
@@ -235,8 +232,21 @@ const Messages = () => {
         type: [DocumentPicker.types.images],
       });
       // setFileResponse(response);
-
-      sendAttachment(response, 'image');
+      if (response.length === 1) {
+        const file = response[0];
+        navigation.navigate('SendCapturedAttachment', {
+          url: file.uri,
+          type: 'image',
+          name: file.name,
+          size: file.size,
+          chatId: chatId,
+          receiverId: receiver?._id,
+          receiverQrCode: receiverQrCode?._id,
+          senderQrCode: senderQrCode?._id,
+        });
+      } else {
+        sendAttachment(response, 'image');
+      }
     } catch (error) {
       if (typeof error === 'string') {
       } else if (error instanceof Error) {
@@ -259,7 +269,21 @@ const Messages = () => {
         type: [DocumentPicker.types.video],
       });
 
-      sendAttachment(response, 'video');
+      if (response.length === 1) {
+        const file = response[0];
+        navigation.navigate('SendCapturedAttachment', {
+          url: file.uri,
+          type: 'video',
+          name: file.name,
+          size: file.size,
+          chatId: chatId,
+          receiverId: receiver?._id,
+          receiverQrCode: receiverQrCode?._id,
+          senderQrCode: senderQrCode?._id,
+        });
+      } else {
+        sendAttachment(response, 'video');
+      }
     } catch (error) {
       if (typeof error === 'string') {
       } else if (error instanceof Error) {

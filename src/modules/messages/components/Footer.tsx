@@ -182,6 +182,7 @@ const Footer = (props: FooterProps) => {
       await axios
         .post('/messages/?userType=user', data, header)
         .then((res) => {
+          console.log('res.data: ', res.data);
           socket.emit('send-message', { message: res.data });
           dispatch(receive({ userType: 'user', message: res.data }));
         })
@@ -217,6 +218,7 @@ const Footer = (props: FooterProps) => {
     await axios
       .post('/messages/attachment?userType=user', data, header)
       .then((res) => {
+        console.log('res.data: ', res.data);
         socket.emit('send-message', { message: res.data });
         res.data.forEach((data1: Message) => dispatch(receive({ userType: 'user', message: data1 })));
         //refreshMessages('sendCapturedAttachment()');

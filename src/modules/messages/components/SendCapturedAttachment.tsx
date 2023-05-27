@@ -11,15 +11,16 @@ import { setAuthTokenService } from '../../app/services';
 import axios from 'axios';
 
 import { useTypedNavigation, useTypedDispatch } from '../../app/hooks';
-import { receive } from '../../messages/actions';
+import { receive } from '../actions';
 import io from 'socket.io-client';
+import { Message as MessageType } from '../types';
 
 type FileType = {
   uri: string;
   type: string;
-  name?: string;
-  fileName?: string;
-  size?: number;
+  name?: string | null;
+  fileName?: string | null;
+  size?: number | null;
 };
 
 const SendCapturedAttachment = () => {
@@ -78,8 +79,11 @@ const SendCapturedAttachment = () => {
     await axios
       .post('/messages/attachment?userType=user', data, header)
       .then((res) => {
-        socket.emit('send-message', { message: res.data });
-        dispatch(receive({ userType: 'user', message: res.data }));
+        res.data.forEach((element: MessageType) => {
+          console.log('res.data: ', element);
+          socket.emit('send-message', { message: element });
+          dispatch(receive({ userType: 'user', message: element }));
+        });
         //refreshMessages('sendCapturedAttachment()');
       })
       .catch((error) => {
@@ -100,16 +104,12 @@ const SendCapturedAttachment = () => {
     if (type === 'image') {
       return <Image style={styles.image} source={{ uri: url }} />;
     } else if (type === 'video') {
+      console.log('video');
+      console.log('uri: ', url);
       return (
-        <VideoPlayer
-          disableFullscreen
-          disableBack
-          disableVolume
-          style={styles.video}
-          source={{ uri: url }}
-          paused={false}
-          controls={false}
-        />
+        <View style={styles.videoContainer}>
+          <VideoPlayer disableFullscreen disableBack disableVolume style={styles.video} source={{ uri: url }} />
+        </View>
       );
     }
   };
@@ -134,9 +134,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '95%',
   },
-  video: {
+  videoContainer: {
     width: '100%',
     height: '95%',
+  },
+  video: {
+    width: '100%',
+    height: '100%',
   },
   button: {
     width: '100%',

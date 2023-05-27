@@ -29,12 +29,12 @@ export type RootStackParams = {
   SendCapturedAttachment: {
     url: string;
     type: 'image' | 'video';
-    name?: string;
-    size?: number;
-    chatId?: string;
-    receiverId?: string;
-    receiverQrCode?: string;
-    senderQrCode?: string;
+    name?: string | null;
+    size?: number | null;
+    chatId?: string | null;
+    receiverId?: string | null;
+    receiverQrCode?: string | null;
+    senderQrCode?: string | null;
   };
   Camera: {
     senderQrCode?: string;
