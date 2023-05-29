@@ -7,6 +7,8 @@ import Home from './Home';
 import AppLanguage from './AppLanguage';
 import Login from './Login';
 import Messages from './Messages';
+import SendCapturedAttachment from './SendCapturedAttachment';
+import CameraScreen from './Camera';
 import ImageView from './ImageView';
 import VideoView from './VideoView';
 import Notifications from './Notifications';
@@ -31,6 +33,8 @@ export {
   AppLanguage,
   Login,
   Messages,
+  SendCapturedAttachment,
+  CameraScreen,
   ImageView,
   VideoView,
   Notifications,

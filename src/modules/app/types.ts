@@ -35,6 +35,7 @@ export type RootStackParams = {
     receiverId?: string | null;
     receiverQrCode?: string | null;
     senderQrCode?: string | null;
+    extension?: string | null;
   };
   Camera: {
     senderQrCode?: string;

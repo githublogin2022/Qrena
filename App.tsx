@@ -27,6 +27,8 @@ import {
   NotificationsSettings,
   Privacy,
   Help,
+  CameraScreen,
+  SendCapturedAttachment,
 } from './src/pages';
 import { Header } from './src/modules/messages/components';
 import { useTypedDispatch, useTypedSelector } from './src/modules/app/hooks';
@@ -35,8 +37,6 @@ import { read } from './src/modules/onboarding/visibility';
 import { update } from './src/modules/app/theme';
 import { TabNavigator } from './src/modules/app/components';
 import { create } from './src/modules/notifications/actions';
-import Camera from './src/modules/messages/components/Camera';
-import SendCapturedAttachment from './src/modules/messages/components/SendCapturedAttachment';
 import SelectContact from './src/pages/SelectContact';
 
 const App: () => JSX.Element = () => {
@@ -112,7 +112,7 @@ const App: () => JSX.Element = () => {
               <Stack.Screen name='Messages' component={Messages} options={{ header: (rest) => <Header {...rest} /> }} />
               <Stack.Screen name='Image' component={ImageView} options={{ headerShown: false }} />
               <Stack.Screen name='Video' component={VideoView} options={{ headerShown: false }} />
-              <Stack.Screen name='Camera' component={Camera} options={{ headerShown: false }} />
+              <Stack.Screen name='Camera' component={CameraScreen} options={{ headerShown: false }} />
               <Stack.Screen
                 name='SendCapturedAttachment'
                 component={SendCapturedAttachment}
