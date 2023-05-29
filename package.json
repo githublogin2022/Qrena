@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "install:clean": "rm -rf node_modules ios/Pods ios/Podfile.lock ios/build android/build yarn.lock && yarn && npx pod-install && npx patch-package",
+    "install:clean": "rm -rf node_modules ios/Pods ios/Podfile.lock ios/build android/build yarn.lock && yarn && npx patch-package && npx pod-install",
     "start:dev": "react-native run-android && react-native run-ios",
     "start:android": "react-native run-android",
     "start:ios": "react-native run-ios",
