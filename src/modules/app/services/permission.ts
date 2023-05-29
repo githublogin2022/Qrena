@@ -12,10 +12,15 @@ const requestTypes: RequestTypes = {
     ios: PERMISSIONS.IOS.CAMERA,
     android: PERMISSIONS.ANDROID.CAMERA,
   },
+  microphone: {
+    ios: PERMISSIONS.IOS.MICROPHONE,
+    android: PERMISSIONS.ANDROID.RECORD_AUDIO,
+  },
 };
 
 export const permissionTypes = {
   camera: 'camera',
+  microphone: 'microphone',
 };
 
 export const checkPermission = async (type: string): Promise<boolean> => {

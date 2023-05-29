@@ -8,7 +8,8 @@ import { RootStackParams } from '../modules/app/types';
 import { useTypedNavigation } from '../modules/app/hooks';
 
 import { stat } from 'react-native-fs';
-import { Camera, CameraDevice, useCameraDevices } from 'react-native-vision-camera';
+import { Camera, useCameraDevices } from 'react-native-vision-camera';
+import { permission } from '../modules/app/services';
 
 const CameraScreen = () => {
   const {
@@ -16,72 +17,98 @@ const CameraScreen = () => {
   } = useRoute<RouteProp<RootStackParams, 'Camera'>>();
   const camera = useRef<Camera>(null);
   const navigation = useTypedNavigation();
-  const [cameraPermissionBool, setCameraPermission] = useState(false);
-  const [microphonePermissionBool, setMicrophonePermission] = useState(false);
+  const [hasPermission, setHasPermission] = useState(false);
   const devices = useCameraDevices();
-  const [device, setDevice] = useState<CameraDevice | undefined>(undefined);
+  const device = devices.back;
 
-  useEffect(() => {
-    const loadPermissions = async () => {
-      const cameraPermission = await Camera.getCameraPermissionStatus();
-      const microphonePermission = await Camera.getMicrophonePermissionStatus();
+  // useEffect(() => {
+  //   const loadPermissions = async () => {
+  //     const cameraPermission = await Camera.getCameraPermissionStatus();
+  //     const microphonePermission = await Camera.getMicrophonePermissionStatus();
 
-      if (cameraPermission) {
-        if (cameraPermission === 'not-determined') {
-          // permission not asked yet
+  //     console.log('original camera permission', cameraPermission);
+  //     console.log('original camera permission', cameraPermission);
 
-          // request permission
-          const newCameraPermission = await Camera.requestCameraPermission();
-          if (newCameraPermission === 'authorized') {
-            // permission granted
-            setCameraPermission(true);
-          } else {
-            // permission denied
-            setCameraPermission(false);
-          }
-        } else if (cameraPermission === 'authorized') {
-          // permission already granted
-          setCameraPermission(true);
-        } else {
-          // permission denied
-          setCameraPermission(false);
-        }
-      }
+  //     if (cameraPermission) {
+  //       if (cameraPermission === 'not-determined' || cameraPermission === 'denied') {
+  //         // permission not asked yet
 
-      if (microphonePermission) {
-        if (microphonePermission === 'not-determined') {
-          // permission not asked yet
+  //         // request permission
+  //         console.log('requesting camera permission');
+  //         Camera.requestCameraPermission()
+  //           .then((value) => {
+  //             console.log('new camera permission: ', value);
+  //             if (value === 'authorized') {
+  //               // permission granted
+  //               setCameraPermission(true);
+  //               micPermissions(microphonePermission);
+  //             } else {
+  //               // permission denied
+  //               setCameraPermission(false);
+  //             }
+  //           })
+  //           .catch((err) => {
+  //             console.log(err);
+  //           });
+  //       } else if (cameraPermission === 'authorized') {
+  //         // permission already granted
+  //         setCameraPermission(true);
+  //         micPermissions(microphonePermission);
+  //       } else {
+  //         // permission denied
+  //         setCameraPermission(false);
+  //       }
+  //     }
 
-          // request permission
-          const newMicrophonePermission = await Camera.requestMicrophonePermission();
-          if (newMicrophonePermission === 'authorized') {
-            // permission granted
-            setMicrophonePermission(true);
-          } else {
-            // permission denied
-            setMicrophonePermission(false);
-          }
-        } else if (microphonePermission === 'authorized') {
-          // permission already granted
-          setMicrophonePermission(true);
-        } else {
-          // permission denied
-          setMicrophonePermission(false);
-        }
-      }
+  //     console.log('camera: ', cameraPermissionBool);
+  //     console.log('microphone: ', microphonePermissionBool);
+  //     if (cameraPermissionBool && microphonePermissionBool) {
+  //       // permissions granted
+  //       setDevice(devices.back);
+  //     }
+  //   };
 
-      console.log('camera: ', cameraPermissionBool);
-      console.log('microphone: ', microphonePermissionBool);
-      if (cameraPermissionBool && microphonePermissionBool) {
-        // permissions granted
-        setDevice(devices.back);
-      }
-    };
+  //   loadPermissions();
+  // }, [cameraPermissionBool, devices.back, microphonePermissionBool, navigation]);
 
-    loadPermissions();
-  }, [cameraPermissionBool, devices.back, microphonePermissionBool, navigation]);
+  // const micPermissions = (microphonePermission: CameraPermissionStatus) => {
+  //   if (microphonePermission) {
+  //     if (microphonePermission === 'not-determined' || microphonePermission === 'denied') {
+  //       // permission not asked yet
+
+  //       // request permission
+  //       console.log('requesting microphone permission');
+  //       Camera.requestMicrophonePermission().then((value) => {
+  //         console.log('new mic permission: ', value);
+  //         if (value === 'authorized') {
+  //           // permission granted
+  //           setMicrophonePermission(true);
+  //         } else {
+  //           // permission denied
+  //           setMicrophonePermission(false);
+  //         }
+  //       });
+  //     } else if (microphonePermission === 'authorized') {
+  //       // permission already granted
+  //       setMicrophonePermission(true);
+  //     } else {
+  //       // permission denied
+  //       setMicrophonePermission(false);
+  //     }
+  //   }
+  // };
 
   // capture an image
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setHasPermission(await permission.checkPermission(permission.permissionTypes.camera));
+        setHasPermission(await permission.checkPermission(permission.permissionTypes.microphone));
+      } catch (error) {}
+    })();
+  }, []);
+
   const takePicture = async () => {
     // const options = { quality: 0.5, base64: true };
     const data = await camera.current?.takePhoto({ qualityPrioritization: 'balanced' });
@@ -141,7 +168,7 @@ const CameraScreen = () => {
 
   return (
     <View style={styles.container}>
-      {device ? (
+      {device && hasPermission ? (
         (console.log('device not null'),
         (
           <Camera
