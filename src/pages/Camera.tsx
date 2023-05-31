@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { HStack } from 'react-native-flex-layout';
 
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParams } from '../modules/app/types';
@@ -18,87 +19,9 @@ const CameraScreen = () => {
   const camera = useRef<Camera>(null);
   const navigation = useTypedNavigation();
   const [hasPermission, setHasPermission] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const devices = useCameraDevices();
   const device = devices.back;
-
-  // useEffect(() => {
-  //   const loadPermissions = async () => {
-  //     const cameraPermission = await Camera.getCameraPermissionStatus();
-  //     const microphonePermission = await Camera.getMicrophonePermissionStatus();
-
-  //     console.log('original camera permission', cameraPermission);
-  //     console.log('original camera permission', cameraPermission);
-
-  //     if (cameraPermission) {
-  //       if (cameraPermission === 'not-determined' || cameraPermission === 'denied') {
-  //         // permission not asked yet
-
-  //         // request permission
-  //         console.log('requesting camera permission');
-  //         Camera.requestCameraPermission()
-  //           .then((value) => {
-  //             console.log('new camera permission: ', value);
-  //             if (value === 'authorized') {
-  //               // permission granted
-  //               setCameraPermission(true);
-  //               micPermissions(microphonePermission);
-  //             } else {
-  //               // permission denied
-  //               setCameraPermission(false);
-  //             }
-  //           })
-  //           .catch((err) => {
-  //             console.log(err);
-  //           });
-  //       } else if (cameraPermission === 'authorized') {
-  //         // permission already granted
-  //         setCameraPermission(true);
-  //         micPermissions(microphonePermission);
-  //       } else {
-  //         // permission denied
-  //         setCameraPermission(false);
-  //       }
-  //     }
-
-  //     console.log('camera: ', cameraPermissionBool);
-  //     console.log('microphone: ', microphonePermissionBool);
-  //     if (cameraPermissionBool && microphonePermissionBool) {
-  //       // permissions granted
-  //       setDevice(devices.back);
-  //     }
-  //   };
-
-  //   loadPermissions();
-  // }, [cameraPermissionBool, devices.back, microphonePermissionBool, navigation]);
-
-  // const micPermissions = (microphonePermission: CameraPermissionStatus) => {
-  //   if (microphonePermission) {
-  //     if (microphonePermission === 'not-determined' || microphonePermission === 'denied') {
-  //       // permission not asked yet
-
-  //       // request permission
-  //       console.log('requesting microphone permission');
-  //       Camera.requestMicrophonePermission().then((value) => {
-  //         console.log('new mic permission: ', value);
-  //         if (value === 'authorized') {
-  //           // permission granted
-  //           setMicrophonePermission(true);
-  //         } else {
-  //           // permission denied
-  //           setMicrophonePermission(false);
-  //         }
-  //       });
-  //     } else if (microphonePermission === 'authorized') {
-  //       // permission already granted
-  //       setMicrophonePermission(true);
-  //     } else {
-  //       // permission denied
-  //       setMicrophonePermission(false);
-  //     }
-  //   }
-  // };
-
-  // capture an image
 
   useEffect(() => {
     (async () => {
@@ -110,7 +33,6 @@ const CameraScreen = () => {
   }, []);
 
   const takePicture = async () => {
-    // const options = { quality: 0.5, base64: true };
     const data = await camera.current?.takePhoto({ qualityPrioritization: 'balanced' });
     console.log(data);
     if (data?.path) {
@@ -119,7 +41,7 @@ const CameraScreen = () => {
       const extension = name?.split('.').pop();
       const stats = await stat(`file://${data?.path}`);
       const size = stats.size;
-      navigation.navigate('SendCapturedAttachment', {
+      navigation.replace('SendCapturedAttachment', {
         url: `file://${data?.path}`,
         name,
         size,
@@ -135,23 +57,27 @@ const CameraScreen = () => {
 
   // stop recording the video
   const stopRecording = async () => {
+    setIsRecording(false);
     await camera.current?.stopRecording();
   };
 
   // start recording the video
   const takeVideo = () => {
+    setIsRecording(true);
     camera.current?.startRecording({
       onRecordingError(error) {
         // error occurred
+        setIsRecording(false);
         console.log(error.name, error.message);
       },
       async onRecordingFinished(data) {
         // recording finished
+        setIsRecording(false);
         const name = data.path.split('/').pop();
         const extension = name?.split('.').pop();
         const stats = await stat(data.path);
         const size = stats.size;
-        navigation.navigate('SendCapturedAttachment', {
+        navigation.replace('SendCapturedAttachment', {
           url: data.path,
           name,
           size,
@@ -166,6 +92,15 @@ const CameraScreen = () => {
     });
   };
 
+  const Recording = () => (
+    <View>
+      <HStack>
+        <Icon style={styles.icon} size={26} color='#f00' name='circle' />
+        <Text>Recording</Text>
+      </HStack>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       {device && hasPermission ? (
@@ -179,37 +114,6 @@ const CameraScreen = () => {
             photo={true}
             video={true}
             audio={true}
-            //   type={RNCamera.Constants.Type.back}
-            //   flashMode={RNCamera.Constants.FlashMode.on}
-            //   androidCameraPermissionOptions={{
-            //     title: 'Permission to use camera',
-            //     message: 'We need your permission to use your camera',
-            //     buttonPositive: 'Ok',
-            //     buttonNegative: 'Cancel',
-            //   }}
-            //   androidRecordAudioPermissionOptions={{
-            //     title: 'Permission to use audio recording',
-            //     message: 'We need your permission to use your audio',
-            //     buttonPositive: 'Ok',
-            //     buttonNegative: 'Cancel',
-            //   }}>
-            //   {({ camera, status }) => {
-            //     if (status !== 'READY') {
-            //       return <Text>Waiting</Text>;
-            //     }
-            //     return (
-            //       <View style={styles.button}>
-            //         <TouchableOpacity
-            //           onLongPress={() => takeVideo(camera)}
-            //           onPress={() => takePicture(camera)}
-            //           onPressOut={() => stopRecording(camera)}
-            //           style={styles.btnAlignment}>
-            //           <Icon color='#fff' size={45} name='camera' />
-            //         </TouchableOpacity>
-            //       </View>
-            //     );
-            //   }}
-            // </Camera>
           />
         ))
       ) : (
@@ -224,6 +128,11 @@ const CameraScreen = () => {
           <Icon color='#fff' size={45} name='camera' />
         </TouchableOpacity>
       </View>
+      {isRecording ? (
+        <View style={styles.recording}>
+          <Recording />
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -246,6 +155,19 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  recording: {
+    position: 'absolute',
+    top: '4%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '50%',
+    zIndex: 1000,
+    alignSelf: 'center',
+  },
+  icon: {
+    marginRight: 10,
   },
 });
 
